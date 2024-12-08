@@ -1,11 +1,12 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/schedule/schedule",
+    "pages/diary/diary"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "OTTODO",
     "navigationBarBackgroundColor": "#ffffff"
   },
   "style": "v2",

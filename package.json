@@ -1,0 +1,15 @@
+{
+  "name": "miniprogram",
+  "version": "1.0.0",
+  "description": "this is ottodo.",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apifm-wxapi": "^24.11.20"
+  }
+}

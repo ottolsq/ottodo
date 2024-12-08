@@ -1,27 +1,106 @@
-<!--index.wxml-->
-<scroll-view class="scrollarea" scroll-y type="list">
-  <view class="container">
-    <view class="userinfo">
-      <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
-        <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-          <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-        </button>
-        <view class="nickname-wrapper">
-          <text class="nickname-label">昵称</text>
-          <input type="nickname" class="nickname-input" placeholder="请输入昵称" bind:change="onInputChange" />
-        </view>
-      </block>
-      <block wx:elif="{{!hasUserInfo}}">
-        <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-        <view wx:else> 请使用2.10.4及以上版本基础库 </view>
-      </block>
-      <block wx:else>
-        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      </block>
+<!--pages/index/index.wxml-->
+<!-- <text>pages/index/index.wxml</text> -->
+<view id="container">
+<view id="brow">
+  <view id="login" class="brow_son">登录</view>
+  <!-- <view id="logout">注销</view> -->
+  <view id="date" class="brow_son">{{date}}{{ing}}</view>
+  <view id="others" class="brow_son" bind:tap="others">|||</view>
+</view>
+
+<!-- 三个浮动的窗口 -->
+<view class="shadowBox" wx:if="{{isOthersView}}" bind:tap="others">
+  <view id="othersView" >
+    <view id="setting" class="othView_son" catch:tap="test">设置
+      <view class="Separator">--------</view>  
     </view>
-    <view class="usermotto">
-      <text class="user-motto">{{motto}}</text>
+    <view id="statistics" class="othView_son" catch:tap="test">统计
+      <view class="Separator">--------</view>
+    </view>
+    <view id="report" class="othView_son" catch:tap="test">报错</view>
+  </view>
+</view>
+
+<!-- 如果是以表单的形式提交呢 -->
+<view class="shadowBox" wx:if="{{isAddTip}}">
+  <view id="addTipView" class="TipView">
+    <view class="title">添加代办</view>
+    <view class="close" bind:tap="addTip">x</view>
+    <view id="type">
+      <text id="type_text">类型：</text>
+      <view id="" class="type_son">代办</view>
+      <view id="" class="type_son">事件</view>
+      <view id="" class="type_son">提醒</view>
+    </view>
+    <view id="inputAreaA">
+      <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" auto-focus/>
+    </view>
+    <view id="btn">
+      <view class="btn_son" bind:tap="addTip">cancel</view>
+      <view class="btn_son" bind:tap="">done</view>
     </view>
   </view>
-</scroll-view>
+</view>
+
+<view class="shadowBox" wx:if="{{isModTip}}">
+  <view id="modTipView" class="TipView">
+    <view class="title">修改代办</view>
+    <view class="close" bind:tap="modTip">x</view>
+    
+    <view id="inputAreaB">
+      <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" auto-focus/>
+    </view>
+    <view id="updateTime">上次修改时间:{{date}}</view>
+    <view id="btn">
+      <view class="btn_son" bind:tap="">删除</view>
+      <view class="btn_son" bind:tap="">修改</view>
+    </view>
+  </view>
+</view>
+
+<view id="body">
+  <scroll-view scroll-y="true"> 
+   <view class="tips" bind:longpress="modTip">
+    <view>
+      <!-- <text class="type">type+number(id)</text> -->
+      <text class="info">info</text>
+    </view>
+    <view class="done">
+      <view class="box">box</view>
+    </view>
+   </view>
+
+   <view class="tips">
+    <view>
+      <!-- <text class="type">type+number(id)</text> -->
+      <text class="info">info:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</text>
+    </view>
+    <view class="done">
+      <view class="box">box</view>
+    </view>
+   </view>
+
+   <view class="tips">
+    <view>
+      <!-- <text class="type">type+number(id)</text> -->
+      <text class="info">info:啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</text>
+    </view>
+    <view class="done">
+      <view class="box">box</view>
+    </view>
+   </view>
+
+   <view class="tips">4</view>
+   <view class="tips">5</view>
+   <view class="tips" bind:longpress="longClick">{{data}}</view>
+  </scroll-view>
+</view>
+
+<view id="footer">
+  <view id="schedule" bind:tap="toSchedule">日程</view>
+  <view id="diary" bind:tap="toDiary">随记</view>
+  <view id="plus" bind:tap="addTip">+</view>
+</view>
+
+</view>
+
