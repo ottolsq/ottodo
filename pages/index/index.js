@@ -9,13 +9,50 @@ Page({
     date: '',
     i: 0,
 
+    // view
     isOthersView: 0,
     isAddTip: 0,
     isModTip: 0,
 
+    // newTip
+    type: 0,
     data: "",
+
+    // midTip
+    index: "",
+    updatetime: "",
+
+    type_styles: ["type_son_ed", "type_son", "type_son"],
+
+    tipList: [
+      {
+        "id": 0,
+        "type": "type_0",
+        "data": "this first tip",
+        "updatetime": 1733898553030
+      },
+      {
+        "id": 1,
+        "type": "type_1",
+        "data": "sssss",
+        "updatetime": 1733898553030
+      },
+      {
+        "id": 2,
+        "type": "type_2",
+        "data": "aaaa",
+        "updatetime": 1733898553030
+      },
+      {
+        "id": 99,
+        "type": "type_3",
+        "data": "ccaads",
+        "updatetime": 1733898553030
+      },
+    ]
   },
 
+  // date and time
   logging(){
     let i = 0
     setInterval(() => {
@@ -45,6 +82,7 @@ Page({
     })
   },
 
+  // OtherView
   others(){
     console.log("other");
     if(!this.data.isOthersView){
@@ -59,34 +97,148 @@ Page({
     console.log(this.data.isOthersView);
   },
 
+  // addTipView
   addTip(){
-    console.log("add Tip");
+    // console.log("add Tip");
     if(!this.data.isAddTip){
       this.setData({
-        isAddTip: 1
+        isAddTip: 1,
+        type: "type_0",
+        data: ""
       })
     }else {
+      let s = this.changeTypeStyle(0)
       this.setData({
-        isAddTip: 0
+        isAddTip: 0,
+        type: "0",
+        type_styles: s,
+        data: ""
       })
-    }    
-    console.log(this.data.isAddTip);
+    }
+    // console.log(this.data.isAddTip);
+  },
+  
+  // 生成id
+  generateId() {
+    return Date.now() % 1000000000 + Math.floor(Math.random()*10);
   },
 
-  modTip(){
+  // handleAdd ***
+  handleAdd() {
+    // todo: send add request ******
+    // data: type, data, updatetime
+
+    let list = this.data.tipList
+    let newTip = {
+      "id": this.generateId(),
+      "type": this.data.type,
+      "data": this.data.data,
+      "updatetime": Date.now()
+    }
+    list.push(newTip)
+    this.setData({
+      tipList: list
+    })
+    // console.log(this.data.tipList);
+    this.addTip()
+  },
+
+  cancleAdd() {
+    this.addTip()
+  },
+
+  // 修改选中的元素的样式
+  changeTypeStyle(type_id) {
+    let styles = this.data.type_styles
+    for (let i = 0; i < styles.length; i++) {
+      if(i == type_id) styles[i] = "type_son_ed"
+      else styles[i] = "type_son"
+    }
+    return styles
+  },
+
+  // 选中type
+  checkedType(e) {
+    // console.log(e.currentTarget.id);
+    let type_id = e.currentTarget.id.split('_')[1]
+    // console.log(type_id);
+
+    // 修改选中的元素的样式
+    let styles =  this.changeTypeStyle(type_id)
+
+    this.setData({
+      type_styles: styles,
+      type: e.currentTarget.id
+    })
+    // console.log(this.data.type);
+  },
+
+  getData(e) {
+    // console.log(e.detail.value);
+    this.setData({
+      data: e.detail.value
+    })
+    // console.log(this.data.data);
+  },
+
+
+
+  // modTipView ******
+  modTip(e){
     console.log("mod Tip");
+  
     if(!this.data.isModTip){
-      this.setData({
-        isModTip: 1
-      })
+      for (let i = 0; i < this.data.tipList.length; i++) {
+        if (this.data.tipList[i].id == e.currentTarget.dataset.id) {
+
+          console.log(this.data.tipList[i].updatetime);
+          this.setData({
+            index: i,
+            data: this.data.tipList[i].data,
+            updatetime: this.formatTime(this.data.tipList[i].updatetime),
+            isModTip: 1,
+          })
+          console.log(this.data.updatetime)
+          break
+        }
+      }
     }else {
       this.setData({
+        index: 0,
+        data: "",
         isModTip: 0
       })
     }    
-    console.log(this.data.isModTip);
+    // console.log(this.data.isModTip);
   },
 
+  // 格式时间戳为本地时间
+  formatTime(timestamp){
+    // const timestamp = 1633072800000; // 示例时间戳
+    const date = new Date(timestamp);
+    const localString = date.toLocaleString();
+    // console.log(localString); 
+    return localString
+  },
+
+  handleMid() {
+    let list = this.data.tipList
+    list[this.data.index].data = this.data.data
+    list[this.data.index].updatetime = Date.now()
+    this.setData({
+      tipList: list,
+    })
+
+    this.modTip()
+    console.log(this.data.tipList);
+
+    // todo: send mid request ******
+    // data: type, data, updatetime
+  },
+  
+
+
+  // toSchedule
   toSchedule(){
     console.log("to Schedule");
     wx.navigateTo({
@@ -94,6 +246,7 @@ Page({
     })
   },
   
+  // toDiary
   toDiary(){
     console.log("to Diary");
     wx.redirectTo({
@@ -101,31 +254,14 @@ Page({
     })
   },
 
-  getData(e) {
-    this.setData({
-      data: e.detail.value
-    });
-  },
-
-  test(){
-    console.log("test");
-
-  },
-
-  longClick(event){
-    console.log("长按");
-    console.log(event.currentTarget);
-    this.setData({
-      data: "changed"
-    })
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.logging()
+    // this.logging()
     this.getDate()
+
+    // console.log(this.formatTime(1733898553030));
   },
 
   /**

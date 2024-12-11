@@ -21,23 +21,23 @@
   </view>
 </view>
 
-<!-- 如果是以表单的形式提交呢 -->
 <view class="shadowBox" wx:if="{{isAddTip}}">
   <view id="addTipView" class="TipView">
     <view class="title">添加代办</view>
     <view class="close" bind:tap="addTip">x</view>
+
     <view id="type">
       <text id="type_text">类型：</text>
-      <view id="" class="type_son">代办</view>
-      <view id="" class="type_son">事件</view>
-      <view id="" class="type_son">提醒</view>
+      <view id="type_0" class="{{type_styles[0]}}" bind:tap="checkedType">代办</view>
+      <view id="type_1" class="{{type_styles[1]}}" bind:tap="checkedType">事件</view>
+      <view id="type_2" class="{{type_styles[2]}}" bind:tap="checkedType">提醒</view>
     </view>
     <view id="inputAreaA">
       <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" auto-focus/>
     </view>
     <view id="btn">
-      <view class="btn_son" bind:tap="addTip">cancel</view>
-      <view class="btn_son" bind:tap="">done</view>
+      <view class="btn_son" bind:tap="cancleAdd">cancel</view>
+      <view class="btn_son" bind:tap="handleAdd">done</view>
     </view>
   </view>
 </view>
@@ -48,51 +48,31 @@
     <view class="close" bind:tap="modTip">x</view>
     
     <view id="inputAreaB">
-      <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" auto-focus/>
+      <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" value="{{data}}" auto-focus/>
     </view>
-    <view id="updateTime">上次修改时间:{{date}}</view>
+    <view id="updateTime">上次修改时间:{{updatetime}}</view>
     <view id="btn">
       <view class="btn_son" bind:tap="">删除</view>
-      <view class="btn_son" bind:tap="">修改</view>
+      <view class="btn_son" bind:tap="handleMid">修改</view>
     </view>
   </view>
 </view>
 
 <view id="body">
   <scroll-view scroll-y="true"> 
-   <view class="tips" bind:longpress="modTip">
-    <view>
-      <!-- <text class="type">type+number(id)</text> -->
-      <text class="info">info</text>
+    <view wx:for="{{tipList}}" wx:for-item="item" wx:key="id">
+      <view data-id="{{item.id}}" class="tips" bind:longpress="modTip">
+        <view>
+          <text class="info">{{item.type}}.{{item.id}}:{{item.data}}</text>
+        </view>
+        <view class="done">
+          <view class="box">box</view>
+        </view>
+      </view>
     </view>
-    <view class="done">
-      <view class="box">box</view>
-    </view>
-   </view>
-
-   <view class="tips">
-    <view>
-      <!-- <text class="type">type+number(id)</text> -->
-      <text class="info">info:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</text>
-    </view>
-    <view class="done">
-      <view class="box">box</view>
-    </view>
-   </view>
-
-   <view class="tips">
-    <view>
-      <!-- <text class="type">type+number(id)</text> -->
-      <text class="info">info:啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</text>
-    </view>
-    <view class="done">
-      <view class="box">box</view>
-    </view>
-   </view>
-
-   <view class="tips">4</view>
-   <view class="tips">5</view>
-   <view class="tips" bind:longpress="longClick">{{data}}</view>
+    
+   
+    <view class="tips">{{type}}:{{data}}</view>
   </scroll-view>
 </view>
 

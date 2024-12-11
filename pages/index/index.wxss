@@ -42,8 +42,7 @@
 
 .shadowBox {
   position: fixed;
-  background-color: rgb(212 242 231 / 60%);
-  background-color: rgba(red, green, blue, alpha);
+  background-color: rgb(212, 242, 231, 60%);
   width: 100vw;
   height: 100vh;
   transform: translate(0 , -8%);
@@ -142,6 +141,17 @@
   width: 19vw;
   height: 5vh;
   background-color: orange;
+  margin: 0.5vh 0.5vw;
+  line-height: 5vh;
+  text-align: center;
+  border: 0.5px solid grey;
+  border-radius: 5px;
+}
+
+.type_son_ed {
+  width: 19vw;
+  height: 5vh;
+  background-color: red;
   margin: 0.5vh 0.5vw;
   line-height: 5vh;
   text-align: center;
