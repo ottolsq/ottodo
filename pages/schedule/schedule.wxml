@@ -1,2 +1,78 @@
 <!--pages/schedule/schedule.wxml-->
-<text>pages/schedule/schedule.wxml</text>
+<!-- <text>pages/schedule/schedule.wxml</text> -->
+<!-- <view>{{color_type}}</view> -->
+<view id="container">
+
+  <view id="header">
+    <view id="date_month" bind:tap="changeMonth">{{month}}</view>
+    <view id="color_list">
+      <view id="color_0" class="color_son"></view>
+      <view id="color_1" class="color_son"></view>
+      <view id="color_2" class="color_son"></view>
+      <view id="color_3" class="color_son"></view>
+    </view>
+  </view>
+
+  <view class="shadowBox" wx:if="{{isChangeMonth}}">
+    <view id="changeMonth">
+      <view class="close" bind:tap="changeMonth">x</view>
+      <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bindchange="bindChange">
+        <picker-view-column>
+          <view wx:for="{{years}}" wx:key="year" style="line-height: 50px; text-align: center;">{{item}}年</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{months}}" wx:key="month" style="line-height: 50px; text-align: center;">{{item}}月</view>
+        </picker-view-column>
+      </picker-view>
+    </view>
+  </view>
+  
+
+  <view id="body">
+    <view id="week">
+      <view class="week_son">日</view>
+      <view class="week_son">一</view>
+      <view class="week_son">二</view>
+      <view class="week_son">三</view>
+      <view class="week_son">四</view>
+      <view class="week_son">五</view>
+      <view class="week_son">六</view>
+    </view>
+    <view id="month_date">
+      <!-- 日期 -->
+      <view wx:for="{{empty_list_0}}" wx:key="index">
+        <view class="date_son date_son_bk">empty</view>
+      </view>
+
+      <view wx:for="{{date_list}}" wx:for-item="item" wx:key="index">
+        <view date-id="{{index}}" class="date_son" bind:tap="">{{index + 1}}</view>
+      </view>
+      
+      <view wx:for="{{empty_list_1}}" wx:key="index">
+        <view class="date_son date_son_bk">empty</view>
+      </view>
+    </view>
+  </view>
+  
+  <view id="footer">
+    <view id="footer_text">当日代办：</view>
+    <scroll-view scroll-y="true">
+      <view wx:for="{{tipList}}" wx:for-item="item" wx:key="id">
+      <view data-id="{{item.id}}" class="tips">
+        <view>
+          <text class="info">{{item.type}}.{{item.id}}:{{item.data}}</text>
+        </view>
+        <view class="done">
+          <view class="box">
+            <checkbox data-id="{{item.id}}" bind:tap="finished"></checkbox>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    </scroll-view>
+  </view>
+</view>
+
+
+

@@ -1,25 +1,61 @@
 <!--pages/index/index.wxml-->
 <!-- <text>pages/index/index.wxml</text> -->
 <view id="container">
-<view id="brow">
-  <view id="login" class="brow_son">登录</view>
-  <!-- <view id="logout">注销</view> -->
-  <view id="date" class="brow_son">{{date}}{{ing}}</view>
-  <view id="others" class="brow_son" bind:tap="others">|||</view>
+<view id="header">
+  <view id="login" class="header_son" bind:tap="">登录</view>
+  <!-- <view id="logout" bind:tap="">注销<image src="微信头像"/></view> -->
+  <view id="date" class="header_son">{{date}}{{ing}}</view>
+  <view id="others" class="header_son" bind:tap="others">|||</view>
 </view>
 
 <!-- 三个浮动的窗口 -->
 <view class="shadowBox" wx:if="{{isOthersView}}" bind:tap="others">
   <view id="othersView" >
-    <view id="setting" class="othView_son" catch:tap="test">设置
+    <view id="setting" data-id="0" class="othView_son" catch:tap="other_son_View">设置
       <view class="Separator">--------</view>  
     </view>
-    <view id="statistics" class="othView_son" catch:tap="test">统计
+    <view id="statistics" data-id="1" class="othView_son" catch:tap="other_son_View">统计
       <view class="Separator">--------</view>
     </view>
-    <view id="report" class="othView_son" catch:tap="test">报错</view>
+    <view id="report" data-id="2" class="othView_son" catch:tap="other_son_View">报错</view>
   </view>
 </view>
+
+<!-- todo: -->
+<view class="shadowBox" wx:if="{{isSettingView}}">
+  <view class="TipView">
+    <view class="title">设置</view>
+    <view data-id="0" class="close" bind:tap="other_son_View">x</view>
+
+    <view>修改颜色</view>
+    <view data-id="0" bind:tap="changeColor">方案一：默认</view>
+    <view data-id="1" bind:tap="changeColor">方案二：冷</view>
+    <view data-id="2" bind:tap="changeColor">方案三：暖</view>
+  </view>
+</view>
+
+<view class="shadowBox" wx:if="{{isStatisticsView}}">
+  <view class="TipView">
+    <view class="title">统计</view>
+
+    <view>代办：999</view>
+    <view>事件：999</view>
+    <view>提醒：999</view>
+    <view>随记：999</view>
+
+    <view data-id="1" class="close" bind:tap="other_son_View">x</view>
+  </view>
+</view>
+
+<view class="shadowBox" wx:if="{{isReportView}}">
+  <view class="TipView">
+    <view class="title">报错</view>
+    <view data-id="2" class="close" bind:tap="other_son_View">x</view>
+
+    <view>e-mail: ottolsq@qq.com</view>
+  </view>
+</view>
+<!--  -->
 
 <view class="shadowBox" wx:if="{{isAddTip}}">
   <view id="addTipView" class="TipView">
@@ -52,8 +88,8 @@
     </view>
     <view id="updateTime">上次修改时间:{{updatetime}}</view>
     <view id="btn">
-      <view class="btn_son" bind:tap="">删除</view>
-      <view class="btn_son" bind:tap="handleMid">修改</view>
+      <view class="btn_son" bind:tap="deleteTip">删除</view>
+      <view class="btn_son" bind:tap="handleMod">修改</view>
     </view>
   </view>
 </view>
@@ -66,12 +102,14 @@
           <text class="info">{{item.type}}.{{item.id}}:{{item.data}}</text>
         </view>
         <view class="done">
-          <view class="box">box</view>
+          <view class="box">
+            <checkbox data-id="{{item.id}}" bind:tap="finished"></checkbox>
+          
+          </view>
         </view>
       </view>
     </view>
     
-   
     <view class="tips">{{type}}:{{data}}</view>
   </scroll-view>
 </view>

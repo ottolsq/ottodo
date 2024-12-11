@@ -5,7 +5,7 @@
   background-color: aqua;
 }
 
-#brow {
+#header {
   width: 100vw;
   height: 8vh;
   background-color: yellowgreen;
@@ -16,7 +16,7 @@
   /* justify-content: center; */
 }
 
-.brow_son {
+.header_son {
   margin: auto;
 }
 
@@ -60,7 +60,6 @@
 
   background-color: #9899ee;
   border-radius: 10px;
-  z-index: 99;
 }
 
 .othView_son {
@@ -92,6 +91,7 @@
   height: 40vh;
   border-radius: 8px;
   background-color: #9899ee;
+  z-index: 99;
 }
 
 .title {

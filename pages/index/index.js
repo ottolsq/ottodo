@@ -5,6 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // colorType: "default",
+
     ing: '',
     date: '',
     i: 0,
@@ -14,11 +16,16 @@ Page({
     isAddTip: 0,
     isModTip: 0,
 
+    // view others
+    isSettingView: 0,
+    isStatisticsView: 0,
+    isReportView: 0,
+
     // newTip
     type: 0,
     data: "",
 
-    // midTip
+    // modTip
     index: "",
     updatetime: "",
 
@@ -49,7 +56,7 @@ Page({
         "data": "ccaads",
         "updatetime": 1733898553030
       },
-    ]
+    ],
   },
 
   // date and time
@@ -84,7 +91,7 @@ Page({
 
   // OtherView
   others(){
-    console.log("other");
+    // console.log("other");
     if(!this.data.isOthersView){
       this.setData({
         isOthersView: 1
@@ -94,7 +101,56 @@ Page({
         isOthersView: 0
       })
     }
-    console.log(this.data.isOthersView);
+    // console.log(this.data.isOthersView);
+  },
+
+  other_son_View(e) {
+    if (e.currentTarget.dataset.id == 0) {
+      if(!this.data.isSettingView){
+        this.setData({
+          isSettingView: 1,
+          isOthersView: 0
+        })
+      }else {
+        this.setData({
+          isSettingView: 0
+        })
+      }
+    }else if(e.currentTarget.dataset.id == 1) {
+      if(!this.data.isStatisticsView){
+        this.setData({
+          isStatisticsView: 1,
+          isOthersView: 0
+        })
+      }else {
+        this.setData({
+          isStatisticsView: 0
+        })
+      }
+    }else {
+      if(!this.data.isReportView){
+        this.setData({
+          isReportView: 1,
+          isOthersView: 0
+        })
+      }else {
+        this.setData({
+          isReportView: 0
+        })
+      }
+    }    
+  },
+
+  changeColor(e) {
+    if(e.currentTarget.dataset.id == 0) {
+      wx.setStorageSync("colorType", "default")
+    }else if(e.currentTarget.dataset.id == 1) {
+      wx.setStorageSync("colorType", "cold")
+    }else {
+      wx.setStorageSync("colorType", "warm")
+    }
+
+    console.log(wx.getStorageSync("colorType"))
   },
 
   // addTipView
@@ -125,9 +181,6 @@ Page({
 
   // handleAdd ***
   handleAdd() {
-    // todo: send add request ******
-    // data: type, data, updatetime
-
     let list = this.data.tipList
     let newTip = {
       "id": this.generateId(),
@@ -139,8 +192,11 @@ Page({
     this.setData({
       tipList: list
     })
-    // console.log(this.data.tipList);
     this.addTip()
+    console.log(this.data.tipList);
+
+    // todo: send add request ******
+    // data: type, data, updatetime
   },
 
   cancleAdd() {
@@ -181,27 +237,26 @@ Page({
     // console.log(this.data.data);
   },
 
+  getTipIndex(id) {
+    for (let i = 0; i < this.data.tipList.length; i++) {
+      if (this.data.tipList[i].id == id) {
+        return i
+      } 
+    }
+  },
 
-
-  // modTipView ******
+  // modTipView ***
   modTip(e){
-    console.log("mod Tip");
-  
+    // console.log("mod Tip");
     if(!this.data.isModTip){
-      for (let i = 0; i < this.data.tipList.length; i++) {
-        if (this.data.tipList[i].id == e.currentTarget.dataset.id) {
-
-          console.log(this.data.tipList[i].updatetime);
-          this.setData({
-            index: i,
-            data: this.data.tipList[i].data,
-            updatetime: this.formatTime(this.data.tipList[i].updatetime),
-            isModTip: 1,
-          })
-          console.log(this.data.updatetime)
-          break
-        }
-      }
+      let id = e.currentTarget.dataset.id
+      let index = this.getTipIndex(id)
+      this.setData({
+        index: index,
+        data: this.data.tipList[index].data,
+        updatetime: this.formatTime(this.data.tipList[index].updatetime),
+        isModTip: 1,
+      })
     }else {
       this.setData({
         index: 0,
@@ -214,28 +269,61 @@ Page({
 
   // 格式时间戳为本地时间
   formatTime(timestamp){
-    // const timestamp = 1633072800000; // 示例时间戳
     const date = new Date(timestamp);
-    const localString = date.toLocaleString();
-    // console.log(localString); 
-    return localString
+
+    let options = {
+      dateStyle: 'short', // 'full', 'long', 'medium', 'short'
+      timeStyle: 'short', // 'full', 'long', 'medium', 'short'
+    };
+
+    let formattedDate = date.toLocaleString('zh-CN', options)
+
+    // console.log(formattedDate);
+    return formattedDate
   },
 
-  handleMid() {
+  handleMod() {
+    if (this.data.tipList[this.data.index].data == this.data.data) {
+      this.modTip()
+      return
+    }
+
     let list = this.data.tipList
     list[this.data.index].data = this.data.data
     list[this.data.index].updatetime = Date.now()
     this.setData({
       tipList: list,
     })
-
     this.modTip()
     console.log(this.data.tipList);
 
-    // todo: send mid request ******
-    // data: type, data, updatetime
+    // todo: send mod request ******
+    // data: id, data, updatetime
   },
   
+  deleteTip() {
+    let list = this.data.tipList
+    list.splice(this.data.index, 1);
+    this.setData({
+      tipList: list
+    })
+    this.modTip()
+    console.log(this.data.tipList);
+
+    // todo: send delete request ******
+    // data: id
+  },
+
+  finished(e) {
+    console.log(e.currentTarget.dataset.id)
+    let index = this.getTipIndex(e.currentTarget.dataset.id)
+    let list = this.data.tipList
+
+    list.splice(index, 1);
+    this.setData({
+      tipList: list
+    })    
+  },
 
 
   // toSchedule
@@ -250,7 +338,7 @@ Page({
   toDiary(){
     console.log("to Diary");
     wx.redirectTo({
-      url:  "/pages/schedule/schedule"
+      url:  "/pages/diary/diary"
     })
   },
 
