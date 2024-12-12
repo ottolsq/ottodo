@@ -42,9 +42,14 @@
   margin: auto;
 
   border: 1px solid grey;
-  border-radius: 1vw;
-  background-color: red;
+  border-radius: 2vw;
+  /* background-color: red; */
 }
+
+#color_0 {background-color: #ebfbee;}
+#color_1 {background-color: #b2f2bb;}
+#color_2 {background-color: #69db7c;}
+#color_3 {background-color: #40c057;}
 
 .shadowBox {
   position: fixed;
@@ -63,10 +68,13 @@
 
   width: 80vw;
   height: 40vh;
-  border-radius: 8px;
+  border-radius: 3vw;
   background-color: white;
   /* z-index: 50; */
+}
 
+picker-view-column {
+  border-radius: 3vw;
 }
 
 .close {
@@ -133,16 +141,24 @@
   margin: 1.6vw;
 
   border: 1px solid grey;
-  border-radius: 2vw;
+  border-radius: 3vw;
   text-align: center;
   line-height: 5vh;
 
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
 }
 
-.date_son_bk {
-  opacity: 0;
+.tipStatus_0 {
+  background-color: #ebfbee;
 }
+
+.tipStatus_1 {background-color: #b2f2bb;}
+
+.tipStatus_2 {background-color: #69db7c;}
+
+.tipStatus_3 {background-color: #40c057;}
+
+.date_son_bk {opacity: 0;}
 
 #footer {
   width: 100vw;
@@ -179,7 +195,6 @@ scroll-view{
   
   background-color: #fff;
   border-radius: 10px 10px;
-
 }
 
 .info {

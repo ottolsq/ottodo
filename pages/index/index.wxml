@@ -2,8 +2,16 @@
 <!-- <text>pages/index/index.wxml</text> -->
 <view id="container">
 <view id="header">
-  <view id="login" class="header_son" bind:tap="">登录</view>
+
+  <!-- todo: login -->
+  <button id="login" class="header_son"  open-type="chooseAvater" bindchooseAvatar="login">登录
+  
+    <image id="avatar" src="{{avatarUrl}}" mode=""/>
+  </button>
+  <input type="nickname" placeholder="请填写昵称"/>
   <!-- <view id="logout" bind:tap="">注销<image src="微信头像"/></view> -->
+  <!--  -->
+
   <view id="date" class="header_son">{{date}}{{ing}}</view>
   <view id="others" class="header_son" bind:tap="others">|||</view>
 </view>
@@ -21,7 +29,7 @@
   </view>
 </view>
 
-<!-- todo: -->
+<!-- todo: setting -->
 <view class="shadowBox" wx:if="{{isSettingView}}">
   <view class="TipView">
     <view class="title">设置</view>
@@ -64,15 +72,15 @@
 
     <view id="type">
       <text id="type_text">类型：</text>
-      <view id="type_0" class="{{type_styles[0]}}" bind:tap="checkedType">代办</view>
-      <view id="type_1" class="{{type_styles[1]}}" bind:tap="checkedType">事件</view>
-      <view id="type_2" class="{{type_styles[2]}}" bind:tap="checkedType">提醒</view>
+      <view data-id="0" class="{{type_styles[0]}}" bind:tap="checkedType">代办</view>
+      <view data-id="1" class="{{type_styles[1]}}" bind:tap="checkedType">事件</view>
+      <view data-id="2" class="{{type_styles[2]}}" bind:tap="checkedType">提醒</view>
     </view>
     <view id="inputAreaA">
       <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" auto-focus/>
     </view>
     <view id="btn">
-      <view class="btn_son" bind:tap="cancleAdd">cancel</view>
+      <view class="btn_son" bind:tap="addTip">cancel</view>
       <view class="btn_son" bind:tap="handleAdd">done</view>
     </view>
   </view>
@@ -86,7 +94,7 @@
     <view id="inputAreaB">
       <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" value="{{data}}" auto-focus/>
     </view>
-    <view id="updateTime">上次修改时间:{{updatetime}}</view>
+    <view id="updateTime">{{updatetime}}</view>
     <view id="btn">
       <view class="btn_son" bind:tap="deleteTip">删除</view>
       <view class="btn_son" bind:tap="handleMod">修改</view>

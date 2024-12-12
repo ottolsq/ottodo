@@ -1,10 +1,9 @@
 <!--pages/schedule/schedule.wxml-->
 <!-- <text>pages/schedule/schedule.wxml</text> -->
-<!-- <view>{{color_type}}</view> -->
 <view id="container">
 
   <view id="header">
-    <view id="date_month" bind:tap="changeMonth">{{month}}</view>
+    <view id="date_month" bind:tap="changeMonth">{{year}}/{{month+1}}</view>
     <view id="color_list">
       <view id="color_0" class="color_son"></view>
       <view id="color_1" class="color_son"></view>
@@ -40,24 +39,29 @@
     </view>
     <view id="month_date">
       <!-- 日期 -->
-      <view wx:for="{{empty_list_0}}" wx:key="index">
-        <view class="date_son date_son_bk">empty</view>
+      <view wx:if="{{empty_list_0.length != 0}}" wx:for="{{empty_list_0}}" wx:key="index">
+        <view class="date_son date_son_bk"></view>
       </view>
 
-      <view wx:for="{{date_list}}" wx:for-item="item" wx:key="index">
-        <view date-id="{{index}}" class="date_son" bind:tap="">{{index + 1}}</view>
+      <view wx:for="{{month_tips}}" wx:for-item="item" wx:key="index">
+        <view wx:if="{{month_tips[index]==0}}" data-id="{{index}}" class="date_son tipStatus_0"  bind:tap="chooseDay">{{index + 1}}</view>
+        <view wx:elif="{{month_tips[index]<=3}}" data-id="{{index}}" class="date_son tipStatus_1"  bind:tap="chooseDay">{{index + 1}}</view>
+        <view wx:elif="{{month_tips[index]<=6}}" data-id="{{index}}" class="date_son tipStatus_2"  bind:tap="chooseDay">{{index + 1}}</view>
+        <view wx:else="{{month_tips[index]>6}}" data-id="{{index}}" class="date_son tipStatus_3"  bind:tap="chooseDay">{{index + 1}}</view>
       </view>
       
-      <view wx:for="{{empty_list_1}}" wx:key="index">
-        <view class="date_son date_son_bk">empty</view>
+      <view wx:if="{{empty_list_1.length != 0}}" wx:for="{{empty_list_1}}" wx:key="index">
+        <view class="date_son date_son_bk"></view>
       </view>
     </view>
   </view>
   
   <view id="footer">
-    <view id="footer_text">当日代办：</view>
+    <view id="footer_text">{{date_ed + 1}}日代办：</view>
     <scroll-view scroll-y="true">
-      <view wx:for="{{tipList}}" wx:for-item="item" wx:key="id">
+      <view wx:if="{{tipList_new.length == 0}}">当日代办为空哦</view>
+
+      <view wx:for="{{tipList_new}}" wx:for-item="item" wx:key="id">
       <view data-id="{{item.id}}" class="tips">
         <view>
           <text class="info">{{item.type}}.{{item.id}}:{{item.data}}</text>

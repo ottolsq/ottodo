@@ -6,7 +6,7 @@ Page({
    */
   data: {
     // colorType: "default",
-
+    avatarUrl: "",
     ing: '',
     date: '',
     i: 0,
@@ -31,37 +31,44 @@ Page({
 
     type_styles: ["type_son_ed", "type_son", "type_son"],
 
-    tipList: [
-      {
-        "id": 0,
-        "type": "type_0",
-        "data": "this first tip",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 1,
-        "type": "type_1",
-        "data": "sssss",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 2,
-        "type": "type_2",
-        "data": "aaaa",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 99,
-        "type": "type_3",
-        "data": "ccaads",
-        "updatetime": 1733898553030
-      },
-    ],
+    tipList: [],
   },
 
-  // date and time
+  // todo: login
+  login(e) {
+    // 缓存头像
+    // 缓存用户id
+    // 缓存用户nickname
+
+    // todo: send get request ******
+    // data: token
+
+    // wx.setStorageSync("userId", id)
+    // wx.setStorageSync("avatarUrl", avatarUrl)
+    // wx.setStorageSync("nickname", nickname)
+
+    console.log(e);
+    this.setData({
+      avatarUrl: e.detail.avatarUrl
+    })
+
+    this.getTipList()
+  },
+
+  // todo: getTipList
+  getTipList() {
+    // todo: send getTipList request ******
+    // data: userId
+    
+    // wx.setStorageSync("tipList", data)
+
+    // this.setData({
+    //   tipList: data,
+    // })
+  },
+
+  // time
   logging(){
-    let i = 0
     setInterval(() => {
       let arr = ['-' ,'\\' ,'|', '/']
       this.setData({
@@ -77,6 +84,7 @@ Page({
     }, 250)
   },
   
+  // set date
   getDate(){
     const now = new Date();
     const year = now.getFullYear();
@@ -104,6 +112,7 @@ Page({
     // console.log(this.data.isOthersView);
   },
 
+  // OtherSonView
   other_son_View(e) {
     if (e.currentTarget.dataset.id == 0) {
       if(!this.data.isSettingView){
@@ -141,6 +150,7 @@ Page({
     }    
   },
 
+  // changeColor
   changeColor(e) {
     if(e.currentTarget.dataset.id == 0) {
       wx.setStorageSync("colorType", "default")
@@ -149,7 +159,6 @@ Page({
     }else {
       wx.setStorageSync("colorType", "warm")
     }
-
     console.log(wx.getStorageSync("colorType"))
   },
 
@@ -159,7 +168,7 @@ Page({
     if(!this.data.isAddTip){
       this.setData({
         isAddTip: 1,
-        type: "type_0",
+        type: "0",
         data: ""
       })
     }else {
@@ -199,9 +208,10 @@ Page({
     // data: type, data, updatetime
   },
 
-  cancleAdd() {
-    this.addTip()
-  },
+  // 取消添加
+  // cancleAdd() {
+  //   this.addTip()
+  // },
 
   // 修改选中的元素的样式
   changeTypeStyle(type_id) {
@@ -216,27 +226,28 @@ Page({
   // 选中type
   checkedType(e) {
     // console.log(e.currentTarget.id);
-    let type_id = e.currentTarget.id.split('_')[1]
-    // console.log(type_id);
+    let type_id = e.currentTarget.dataset.id
+    console.log(type_id);
 
     // 修改选中的元素的样式
     let styles =  this.changeTypeStyle(type_id)
 
     this.setData({
       type_styles: styles,
-      type: e.currentTarget.id
+      type: type_id
     })
     // console.log(this.data.type);
   },
 
+  // 得到输入的数据
   getData(e) {
-    // console.log(e.detail.value);
     this.setData({
       data: e.detail.value
     })
     // console.log(this.data.data);
   },
 
+  // 获取指定id的tip在tipList中的索引位置
   getTipIndex(id) {
     for (let i = 0; i < this.data.tipList.length; i++) {
       if (this.data.tipList[i].id == id) {
@@ -245,10 +256,11 @@ Page({
     }
   },
 
-  // modTipView ***
+  // modTipView
   modTip(e){
     // console.log("mod Tip");
     if(!this.data.isModTip){
+
       let id = e.currentTarget.dataset.id
       let index = this.getTipIndex(id)
       this.setData({
@@ -261,13 +273,14 @@ Page({
       this.setData({
         index: 0,
         data: "",
+        updatetime: 0,
         isModTip: 0
       })
     }    
     // console.log(this.data.isModTip);
   },
 
-  // 格式时间戳为本地时间
+  // 格式化时间戳为本地时间
   formatTime(timestamp){
     const date = new Date(timestamp);
 
@@ -275,14 +288,14 @@ Page({
       dateStyle: 'short', // 'full', 'long', 'medium', 'short'
       timeStyle: 'short', // 'full', 'long', 'medium', 'short'
     };
-
     let formattedDate = date.toLocaleString('zh-CN', options)
-
     // console.log(formattedDate);
     return formattedDate
   },
 
+  // handleMod ***
   handleMod() {
+    // 如果没改
     if (this.data.tipList[this.data.index].data == this.data.data) {
       this.modTip()
       return
@@ -300,7 +313,8 @@ Page({
     // todo: send mod request ******
     // data: id, data, updatetime
   },
-  
+
+  // delete Tip ***
   deleteTip() {
     let list = this.data.tipList
     list.splice(this.data.index, 1);
@@ -314,6 +328,7 @@ Page({
     // data: id
   },
 
+  // finished Tip ***
   finished(e) {
     console.log(e.currentTarget.dataset.id)
     let index = this.getTipIndex(e.currentTarget.dataset.id)
@@ -322,9 +337,12 @@ Page({
     list.splice(index, 1);
     this.setData({
       tipList: list
-    })    
-  },
+    })
+    console.log(this.data.tipList);
 
+    // todo: send delete request ******
+    // data: id
+  },
 
   // toSchedule
   toSchedule(){
@@ -342,14 +360,116 @@ Page({
     })
   },
 
+  // 清空缓存
+  initData(){
+    wx.setStorageSync("userId", "")
+    wx.setStorageSync("avatarUrl", "")
+    wx.setStorageSync("nickname", "")
+    wx.setStorageSync("tipList", "")
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     // this.logging()
     this.getDate()
-
-    // console.log(this.formatTime(1733898553030));
+    
+    if(wx.getStorageSync("userId")!=""){
+     this.getTipList()
+    }else {
+      // test
+      this.initData()
+      this.setData({
+        tipList: [
+          {
+            "id": 0,
+            "type": "0",
+            "data": "登录、设置",
+            "updatetime": 1733898553030
+          },
+          {
+            "id": 1,
+            "type": "0",
+            "data": "相关request",
+            "updatetime": 1733898553030
+          },
+          {
+            "id": 2,
+            "type": "1",
+            "data": "tipView: 行距问题、大小问题、文字自动换行问题",
+            "updatetime": 1733898553030
+          },
+          {
+            "id": 3,
+            "type": "1",
+            "data": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "updatetime": 1733898553030
+          },
+          {
+            "id": 4,
+            "type": "2",
+            "data": "picker元素的bug：2024.3/6月",
+            "updatetime": 1733898553030
+          },
+          {
+            "id": 5,
+            "type": "0",
+            "data": "关闭按钮接触面积需要扩大",
+            "updatetime": 1733898553030
+          },
+          {
+            "id": 6,
+            "type": "1",
+            "data": "aaaa",
+            "updatetime": 1733898553030
+          },
+          {
+            "id": 99,
+            "type": "0",
+            "data": "ccaads",
+            "updatetime": 1733898553030
+          },
+          {
+            "id": 100,
+            "type": "0",
+            "data": "121212",
+            "updatetime": 1733981486746
+          },
+          {
+            "id": 101,
+            "type": "1",
+            "data": "12222222",
+            "updatetime": 1733981486746
+          },
+          {
+            "id": 102,
+            "type": "2",
+            "data": "1222222111",
+            "updatetime": 1733981486746
+          },
+          {
+            "id": 103,
+            "type": "0",
+            "data": "1222222122",
+            "updatetime": 1733981486746
+          },
+          {
+            "id": 110,
+            "type": "0",
+            "data": "1313131313",
+            "updatetime": 1734067989000
+          },
+          {
+            "id": 111,
+            "type": "1",
+            "data": "133333333",
+            "updatetime": 1734067989000
+          },
+        ],
+      })
+    }
+    
   },
 
   /**
@@ -360,24 +480,30 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面显示
+   * 生命周期函数--监听页面显示 只要显示就触发
    */
   onShow() {
-
+    if(wx.getStorageSync("tipList") != "") {
+      console.log("review");
+      this.setData({
+        tipList: wx.getStorageSync("tipList")
+      })
+    }
+    
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-
+    wx.setStorageSync("tipList", this.data.tipList)
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-
+    // wx.setStorageSync("tipList", this.data.tipList)
   },
 
   /**

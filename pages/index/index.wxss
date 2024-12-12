@@ -59,7 +59,7 @@
   height: 21vh;
 
   background-color: #9899ee;
-  border-radius: 10px;
+  border-radius: 3vw;
 }
 
 .othView_son {
@@ -89,7 +89,7 @@
 
   width: 80vw;
   height: 40vh;
-  border-radius: 8px;
+  border-radius: 3vw;
   background-color: #9899ee;
   z-index: 99;
 }
@@ -145,7 +145,7 @@
   line-height: 5vh;
   text-align: center;
   border: 0.5px solid grey;
-  border-radius: 5px;
+  border-radius: 2vw;
 }
 
 .type_son_ed {
@@ -156,7 +156,7 @@
   line-height: 5vh;
   text-align: center;
   border: 0.5px solid grey;
-  border-radius: 5px;
+  border-radius: 2vw;
 }
 
 #inputAreaA {
@@ -173,7 +173,7 @@
   height:6vh;
   display: flex;
   flex-direction: row;
-  background-color: green;
+  /* background-color: green; */
 }
 
 .btn_son {
@@ -183,7 +183,7 @@
 
   line-height: 5vh;
   text-align: center;
-  border-radius: 3px;
+  border-radius: 2vw;
   background-color: skyblue;
 }
 

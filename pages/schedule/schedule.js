@@ -8,81 +8,37 @@ Page({
     // 初始
     color_type: "",
 
+    // 选定指定年月
     years: [],
     months:[1,2,3,4,5,6,7,8,9,10,11,12],
     isChangeMonth: 0,
 
     // 日历
-    month: "",
-    date_num: "",
-    week: "",
+    year: "",     // 当前年    
+    month: "",    // 当前年月，从零开始
 
+    date_num: "", // 当前月的天数
+    // week: "",     // 第一天的星期数
+
+    // 渲染Schedule
     empty_list_0: [],
-    date_list: [],
     empty_list_1: [],
-
     // tips
-    date_ed: "", // 当前选中的日期
+    month_tips: [],  // 当前月的tips分布情况
+    date_ed: "",     // 当前选中的日期，从零开始
     tipList_new: [], // 当前选中的日期的tips
     
     // test 数据
-    tipList: [
-      {
-        "id": 0,
-        "type": "type_0",
-        "data": "this first tip",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 1,
-        "type": "type_1",
-        "data": "sssss",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 2,
-        "type": "type_2",
-        "data": "aaaa",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 3,
-        "type": "type_2",
-        "data": "aaaa",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 4,
-        "type": "type_2",
-        "data": "aaaa",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 5,
-        "type": "type_2",
-        "data": "aaaa",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 6,
-        "type": "type_2",
-        "data": "aaaa",
-        "updatetime": 1733898553030
-      },
-      {
-        "id": 99,
-        "type": "type_3",
-        "data": "ccaads",
-        "updatetime": 1733898553030
-      },
-    ],
+    tipList: [],
   },
 
+  // 获取当前的时间，并赋值picker元素
+  // 当前选中的日期，默认为当日
   getDate(){
     const now = new Date();
     const year = now.getFullYear();
-    const month = ('0' + (now.getMonth() + 1)).slice(-2);
-    const formattedTime = year + "/" + month
+    const month = now.getMonth();
+    const day = now.getDate();
 
     let years = []
     for (let i = year; i >= 1990; i--) {
@@ -91,14 +47,18 @@ Page({
 
     this.setData({
       years: years,
-      month: formattedTime
+      year: year,
+      month: month,
+      date_ed: day-1,
     })
-
-    console.log(this.data.month);
+    // console.log(this.data.year);
+    // console.log(this.data.month);
+    // console.log(this.data.date_ed);
   },
 
+  // changeMonthView
   changeMonth() {
-    console.log(this.data.month);
+    console.log(this.data.month, this.data.year);
     if (!this.data.isChangeMonth) {
       this.setData({
         isChangeMonth: 1
@@ -110,29 +70,38 @@ Page({
     }
   },
 
+  // changeMonth
   bindChange(e){
     const val = e.detail.value
-    let month = this.data.years[val[0]] +"/"+this.data.months[val[1]]
     this.setData({
-      month: month
+      year: this.data.years[val[0]],
+      month: this.data.months[val[1]]-1,
+      date_ed: 0,
     })
 
+    // console.log(this.data.year);
+    // console.log(this.data.month);
+
     this.getScheduleDate()
+    this.assortTips()
+    this.getMonthTipsStatus(this.data.year, this.data.month)
   },
 
   // 获取某年某月的天数
   getDateNum(year, month) { // month 从1开始
-    const date = new Date(year, month, 0);
+    const date = new Date(year, month+1, 0);
 
     // 获取日期的部分，即该月的天数
     return date.getDate();
   },
 
+  // 渲染Schedule表
   getScheduleDate() {
-    let year = this.data.month.split('/')[0]
-    let month = this.data.month.split('/')[1]
+    let year = this.data.year
+    let month = this.data.month
     let date = this.getDateNum(year, month)
-    let dayOfWeek = new Date(year, month-1, 1).getDay();
+    // 星期，星期日为0
+    let dayOfWeek = new Date(year, month, 1).getDay();
     
     let arr0 = new Array(dayOfWeek)
     let arr1 = new Array(date)
@@ -140,31 +109,60 @@ Page({
 
     this.setData({
       date_num: date,
-      week: dayOfWeek,
       empty_list_0: arr0,
-      date_list: arr1,
+      month_tips: arr1,
       empty_list_1: arr2,
     })
-
-    console.log(this.data.date_num);
-    console.log(this.data.week);
+    // console.log(this.data.date_num);
+    // console.log(this.data.week);
   },
 
-  // todo: 时间戳转换为日期，只要天数
+  // 时间戳转换为日期，0为天数，1为月数，2为年数
+  formatTime(timestamp, t){
+    if(t == 0) return new Date(timestamp).getDate()
+    else if(t==1)return new Date(timestamp).getMonth()
+    else return new Date(timestamp).getFullYear();
+  },
 
-  // todo: 按时间分类tips
+  // 按时间分类tips
   assortTips() {
-    // this.data.tipList
-    // 年月日一致则展示
-    // this.data.tipList_new
+    let tipList_new = this.data.tipList.filter((item) => {
+      if (this.formatTime(item.updatetime, 0) == this.data.date_ed + 1) return item
+    })
 
+    this.setData({
+      tipList_new: tipList_new,
+    })
+    // console.log(this.data.tipList_new);
   },
 
-  // todo: 根据tip数量改变date_son
+  // 获取指定月的tips分布情况
+  getMonthTipsStatus(year, mount) {
+    let datas =  this.data.tipList
+    let month_tips = new Array(this.data.date_num).fill(0)
+    
+    for (let i = 0; i < datas.length; i++) {
+      if(this.formatTime(datas[i].updatetime, 1) == mount && this.formatTime(datas[i].updatetime, 2) == year) {
+        // 有tip就+1 // 0~30，以零开头
+        month_tips[this.formatTime(datas[i].updatetime, 0)-1]++
+      }
+    }
 
+    this.setData({
+      month_tips: month_tips
+    })
+    // console.log(this.data.month_tips);
+  },
 
+  // change date_ed
+  chooseDay(e) {
+    this.setData({
+      date_ed: e.currentTarget.dataset.id
+    })
+    this.assortTips()
+  },
 
-
+ // 获取指定id的tip在tipList中的索引位置
   getTipIndex(id) {
     for (let i = 0; i < this.data.tipList.length; i++) {
       if (this.data.tipList[i].id == id) {
@@ -173,31 +171,40 @@ Page({
     }
   },
 
+  // 删除逻辑
   finished(e) {
     console.log(e.currentTarget.dataset.id)
     let index = this.getTipIndex(e.currentTarget.dataset.id)
-    let list = this.data.tipList
 
+    // 在总表中删除
+    let list = this.data.tipList
     list.splice(index, 1);
     this.setData({
       tipList: list
-    })    
-  },
+    })
 
+    this.assortTips()
+    this.getMonthTipsStatus(this.data.year, this.data.month)
+
+    // todo: send delete request ******
+    // data: id
+  },
   
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    // 获取用户数据
     this.setData({
-      color_type: wx.getStorageSync("colorType")
+      color_type: wx.getStorageSync("colorType"),
+      tipList: wx.getStorageSync("tipList")
     })
 
+    // 获取当前的时间
     this.getDate()
-
     this.getScheduleDate()
-
-    
+    this.assortTips()
+    this.getMonthTipsStatus(this.data.year, this.data.month)
   },
 
   /**
@@ -218,14 +225,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-
+    
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-
+    wx.setStorageSync("tipList", this.data.tipList)
   },
 
   /**
