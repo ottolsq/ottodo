@@ -1,17 +1,26 @@
 // pages/index/index.js
+const WXAPI = require("apifm-wxapi")
+WXAPI.init("ottolsq")
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    // colorType: "default",
+    // userInfo
     avatarUrl: "",
+
+    // setting
+    colorType: "default",
+
+    // logging
     ing: '',
     date: '',
     i: 0,
 
     // view
+    isLogoutView: 0,
     isOthersView: 0,
     isAddTip: 0,
     isModTip: 0,
@@ -30,41 +39,247 @@ Page({
     updatetime: "",
 
     type_styles: ["type_son_ed", "type_son", "type_son"],
-
     tipList: [],
   },
 
-  // todo: login
-  login(e) {
-    // 缓存头像
-    // 缓存用户id
-    // 缓存用户nickname
+  login() {
+    wx.login({
+      success: function (res) {
+        const code = res.code; // 微信登录接口返回的 code 参数，下面登录接口需要用到
+        WXAPI.login_wx(code).then(function (res) {
+          // 登录接口返回结果
+          console.log(res);
+          if(res.code == 0) {
+            // 缓存用户token
+            wx.setStorageSync("userToken", res.data)
+            // console.log(wx.getStorageSync("userToken"));
+            // console.log(res.data);
 
-    // todo: send get request ******
-    // data: token
+            console.log("login success");
+          }else{console.log("login fail");}
+        })
+      }
+    })
+  },
 
-    // wx.setStorageSync("userId", id)
-    // wx.setStorageSync("avatarUrl", avatarUrl)
-    // wx.setStorageSync("nickname", nickname)
+  logoutView() {
+    this.setData({
+    isLogoutView: 1,
+    })
 
-    console.log(e);
+    setTimeout(()=>{
+      this.setData({
+        isLogoutView: 0,
+        })
+
+    }, 1500)
+  },
+
+  // register and login
+  register(e) {
+    if (!e.detail) {
+      // 你点了取消授权
+      console.log("out");
+      return;
+    }
+
+    // console.log(e);
     this.setData({
       avatarUrl: e.detail.avatarUrl
     })
 
-    this.getTipList()
+    let register_code = ""
+    wx.login({
+      success: function (res) {
+        //只能用一次
+        const code = res.code; // 微信登录接口返回的 code 参数，下面注册接口需要用到
+        wx.getUserInfo({
+          success: function (res) {
+            const iv = res.iv;
+            const encryptedData = res.encryptedData;
+            // 微信授权注册 给WXAPI openid
+
+            // 下面开始调用注册接口
+            WXAPI.register_complex({
+              code: code,
+              encryptedData: encryptedData,
+              iv: iv
+            }).then(function (res) {
+              // 注册接口返回结果
+              console.log("register:", res)
+               register_code = res.code
+              // console.log(register_code);
+
+              if (register_code == 10000 || register_code == 0) {
+
+                // console.log("register success");
+                if(register_code == 10000){console.log("registered code: 10000");}
+                if(register_code == 0){console.log("register success code 0");}
+
+                wx.login({
+                  success: function (res) {
+                    const code = res.code; // 微信登录接口返回的 code 参数，下面登录接口需要用到
+                    WXAPI.login_wx(code).then(function (res) {
+                      // 登录接口返回结果
+                      console.log("login:", res);
+                      if(res.code == 0) {
+                        // 缓存用户token
+                        wx.setStorageSync("userToken", res.data)
+                        // console.log(wx.getStorageSync("userToken"));
+                        // console.log(res.data);
+            
+                        console.log("login success");
+                        // 缓存头像
+                        wx.setStorageSync("avatarUrl", e.detail.avatarUrl)        
+                        // console.log(wx.getStorageSync("avatarUrl"));
+                        console.log("userToken:", wx.getStorageSync("userToken"));
+                        if(register_code == 0){
+
+                          // 参数中没有id就是新增，反之为修改
+                          WXAPI.jsonSet({
+                            type: "代办",
+                            token: wx.getStorageSync("userToken").token,
+                            refId: wx.getStorageSync("userToken").uid,
+                            content: '{"msg": [{"data": "快来写下第一个代办吧", "id": 0, type: "0", "updatetime": ' + Date.now() +'}]}'
+                          }).then(res => {
+                            this.getJson()
+                            // console.log(res);
+                            // console.log("error");
+                          })
+                        }
+                        
+                        WXAPI.jsonList({
+                          refId: wx.getStorageSync("userToken").uid,
+                          token: wx.getStorageSync("userToken").token,
+                        }).then(res => {
+                          if (res.code == 0) {
+                            // todo: 登录无法即时获取到代办数据，可能是js异步问题
+                            console.log("获取成功");
+                            wx.setStorageSync("tipList", res.data[0].jsonData.msg)
+                            // this.setData({
+                            //   tipList: res.data[0].jsonData.msg
+                            // })
+                          }
+                        })
+                      }else{console.log("login fail");}
+                    })
+                  }
+                })                
+              } else {
+                console.log("register fail");
+                return
+              }
+            })
+          }
+        })
+      }
+    })
+    // this.setData({tipList: wx.getStorageSync("tipList")})
+    // console.log(wx.getStorageSync("tipList"));
   },
 
-  // todo: getTipList
-  getTipList() {
-    // todo: send getTipList request ******
-    // data: userId
-    
-    // wx.setStorageSync("tipList", data)
+  async r_l(e) {
+    try {
+      await this.register(e)
+      // 无法执行 下面的代码
+      // 1.
+      // await this.getJson()
+      // 2.
+      // await wx.redirectTo({
+      //   url:  "/pages/index/index"
+      // });
+      // 2.
+      // await function() {
+      //   setTimeout(()=>{
+      //     console.log("done");
+      //     // todo: 放不进去
+      //     this.setData({tipList: wx.getStorageSync("tipList")})
+      //   }, 1000) 
+      // }
+    } catch (err) {
+      console.log(err);
+      console.log("login fail");
+    }
+  },
 
-    // this.setData({
-    //   tipList: data,
-    // })
+  logout(e) {
+    console.log("logout");
+    this.initData()
+    this.setData({
+      avatarUrl: "",
+      tipList: []
+    })
+  },
+
+  // 初始化
+  addJson() {
+    const userToken = wx.getStorageSync("userToken")
+    if(!userToken){
+      console.log("未登录");
+      return
+    }
+
+    WXAPI.jsonSet({
+      type: "代办",
+      token: userToken.token,
+      refId: wx.getStorageSync("userToken").uid,
+      // id: wx.getStorageSync("userTipListId"),
+      content: '{"msg": [{"data": "快来写下第一个代办吧", "id": 1, type: "0", "updatetime": ' + Date.now() +'}]}'
+    }).then(res => {
+      console.log(res);
+      // console.log("error");
+    })
+
+    // to set userTipListId
+    this.getJson()
+  },
+
+
+  modJson() {
+    const userToken = wx.getStorageSync("userToken")
+    if(!userToken){
+      console.log("未登录");
+      return
+    }
+
+    // 参数中没有id就是新增，反之为修改
+    WXAPI.jsonSet({
+      type: "代办",
+      token: userToken.token,
+      refId: wx.getStorageSync("userToken").uid,
+      // [{"data": "登录、设置", "id": 0, type: "0", "updatetime": 1733898553030}]
+      id: wx.getStorageSync("userTipListId"),
+      content: '{"msg": '+ JSON.stringify(this.data.tipList)+ '}'
+    }).then(res => {
+      // console.log(res);
+      // console.log("error");
+    })
+  },
+
+  getJson() {
+    const userToken = wx.getStorageSync("userToken")
+    if(!userToken){
+      console.log("未登录");
+      return
+    }
+
+    console.log("getJson");
+
+    // 只获取 refId 的数据
+    WXAPI.jsonList({
+      refId: wx.getStorageSync("userToken").uid,
+      token: userToken.token,
+    }).then(res => {
+      if (res.code == 0) {
+        console.log("get tipList and userTipListId success");
+        wx.setStorageSync("tipList", res.data[0].jsonData.msg)
+        wx.setStorageSync("userTipListId", res.data[0].id)
+        console.log("cache:", wx.getStorageSync("userTipListId"));
+        this.setData({
+          tipList: res.data[0].jsonData.msg,
+        })
+      }
+    })
   },
 
   // time
@@ -90,8 +305,8 @@ Page({
     const year = now.getFullYear();
     const month = ('0' + (now.getMonth() + 1)).slice(-2);
     const day = ('0' + now.getDate()).slice(-2);
-    const formattedTime = year%100 + "." + month + "." + day;
-    console.log(formattedTime);
+    const formattedTime = year%100 + "-" + month + "-" + day;
+    console.log("time:", formattedTime);
     this.setData({
       date: formattedTime
     })
@@ -188,7 +403,7 @@ Page({
     return Date.now() % 1000000000 + Math.floor(Math.random()*10);
   },
 
-  // handleAdd ***
+  // handleAdd
   handleAdd() {
     let list = this.data.tipList
     let newTip = {
@@ -202,10 +417,11 @@ Page({
       tipList: list
     })
     this.addTip()
-    console.log(this.data.tipList);
+    // console.log(this.data.tipList);
 
-    // todo: send add request ******
-    // data: type, data, updatetime
+    wx.setStorageSync("tipList", list)
+    console.log(list);
+    this.modJson()
   },
 
   // 取消添加
@@ -262,6 +478,7 @@ Page({
     if(!this.data.isModTip){
 
       let id = e.currentTarget.dataset.id
+      // console.log(id);
       let index = this.getTipIndex(id)
       this.setData({
         index: index,
@@ -293,7 +510,7 @@ Page({
     return formattedDate
   },
 
-  // handleMod ***
+  // handleMod
   handleMod() {
     // 如果没改
     if (this.data.tipList[this.data.index].data == this.data.data) {
@@ -307,30 +524,31 @@ Page({
     this.setData({
       tipList: list,
     })
+    wx.setStorageSync("tipList", list)
     this.modTip()
-    console.log(this.data.tipList);
+    // console.log(this.data.tipList);
 
-    // todo: send mod request ******
-    // data: id, data, updatetime
+    this.modJson()
   },
 
-  // delete Tip ***
+  // delete Tip
   deleteTip() {
     let list = this.data.tipList
     list.splice(this.data.index, 1);
     this.setData({
       tipList: list
     })
-    this.modTip()
-    console.log(this.data.tipList);
 
-    // todo: send delete request ******
-    // data: id
+    wx.setStorageSync("tipList", list)
+    this.modTip()
+    // console.log(this.data.tipList);
+
+    this.modJson()
   },
 
-  // finished Tip ***
+  // finished Tip
   finished(e) {
-    console.log(e.currentTarget.dataset.id)
+    // console.log(e.currentTarget.dataset.id)
     let index = this.getTipIndex(e.currentTarget.dataset.id)
     let list = this.data.tipList
 
@@ -338,10 +556,10 @@ Page({
     this.setData({
       tipList: list
     })
-    console.log(this.data.tipList);
+    // console.log(this.data.tipList);
 
-    // todo: send delete request ******
-    // data: id
+    wx.setStorageSync("tipList", list)
+    this.modJson()
   },
 
   // toSchedule
@@ -362,10 +580,11 @@ Page({
 
   // 清空缓存
   initData(){
-    wx.setStorageSync("userId", "")
     wx.setStorageSync("avatarUrl", "")
-    wx.setStorageSync("nickname", "")
+    wx.setStorageSync("userToken", "")
+    wx.setStorageSync("colorType", "")
     wx.setStorageSync("tipList", "")
+    wx.setStorageSync("userTipListId", "")
   },
 
   /**
@@ -375,10 +594,17 @@ Page({
     // this.logging()
     this.getDate()
     
-    if(wx.getStorageSync("userId")!=""){
-     this.getTipList()
+    if(wx.getStorageSync("userToken")){
+      // console.log(wx.getStorageSync("userToken"));
+      console.log("logined");
+      // this.getJson()
+      this.setData({
+        avatarUrl: wx.getStorageSync('avatarUrl')
+      })
+
     }else {
       // test
+      console.log("not login");
       this.initData()
       this.setData({
         tipList: [
@@ -403,7 +629,7 @@ Page({
           {
             "id": 3,
             "type": "1",
-            "data": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "data": "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊",
             "updatetime": 1733898553030
           },
           {
@@ -415,13 +641,13 @@ Page({
           {
             "id": 5,
             "type": "0",
-            "data": "关闭按钮接触面积需要扩大",
+            "data": "json设置的为新增，无法获取，且为通用属性",
             "updatetime": 1733898553030
           },
           {
             "id": 6,
             "type": "1",
-            "data": "aaaa",
+            "data": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "updatetime": 1733898553030
           },
           {
@@ -469,7 +695,6 @@ Page({
         ],
       })
     }
-    
   },
 
   /**
@@ -483,12 +708,15 @@ Page({
    * 生命周期函数--监听页面显示 只要显示就触发
    */
   onShow() {
-    if(wx.getStorageSync("tipList") != "") {
-      console.log("review");
-      this.setData({
-        tipList: wx.getStorageSync("tipList")
-      })
-    }
+    // 在schedule页面修改（点击了完成）tipList需要用到
+    console.log("review index");
+    this.getJson()
+    // if(wx.getStorageSync("tipList") != "") {
+    //   console.log("review");
+    //   this.setData({
+    //     tipList: wx.getStorageSync("tipList"),
+    //   })
+    // }
     
   },
 
@@ -496,7 +724,9 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-    wx.setStorageSync("tipList", this.data.tipList)
+    // 在schedule页面修改（点击了完成）tipList需要用到
+    // console.log("index hide");
+    // wx.setStorageSync("tipList", this.data.tipList)
   },
 
   /**

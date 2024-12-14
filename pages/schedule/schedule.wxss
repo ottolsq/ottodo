@@ -78,8 +78,17 @@ picker-view-column {
 }
 
 .close {
+  width: 8vw;
+  height: 8vw;
+  background-color: #c0c0c0;
+
+  text-align: center;
+  line-height: 8vw;
   font-weight: 800;
   font-size: 25px;
+
+  border: 1px solid #9a9a9a;
+  border-radius: 50%;
 
   position: fixed;
   left: 94%;
@@ -182,10 +191,12 @@ scroll-view{
   height: 45vh; 
 }
 
-.tips {
+.tips {  
   width: 96vw;
   /* tip最小高度 */
-  min-height:50px;
+  min-height: 6vh;
+  max-height: 16vh;
+
   height: auto;
   margin: 2vw;
 
@@ -198,12 +209,24 @@ scroll-view{
 }
 
 .info {
-  width: 82.5vw;
-  background-color: yellow;
+  width: 80.5vw;
+  /* background-color: yellow; */
+  font-size: 3vh;
+  line-height: 150%;
 
-  line-height: 50px;
-  font-size: 25px;
-  /* white-space: normal; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-left: 2vw;
+  /* margin: 1vh, 2vw, 1vh, 0; */
+
+  overflow-wrap: anywhere;
+  overflow: auto; 
+
+  background-color: yellow;
 }
 
 .done {
@@ -213,5 +236,5 @@ scroll-view{
   align-items: center;
   justify-content: center;
 
-  background-color: indianred;
+  /* background-color: indianred; */
 }

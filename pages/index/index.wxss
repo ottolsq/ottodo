@@ -17,26 +17,63 @@
 }
 
 .header_son {
+  width: 20vw;
+  height: 6vh;
   margin: auto;
 }
 
 #login {
-  width: 60px;
-  height: 40px;
-  margin-left: 10px;
+  margin-left: 3vw;
+
+  font-size: large;
+  /* font-weight: bolder; */
+  line-height: 6vh;
+  text-align: center;
+
   background-color: rosybrown;
 }
 
+#avatarView {
+  /* padding-left: 0px; */
+  margin-left: 3vw;
+  /* background-color: #fff; */
+}
+
+#avatarView image {
+  width: 7vh;
+  height: 7vh;
+  margin-top: -0.5vh;
+  /* margin-left: -1vw; */
+  border-radius: 100%;
+}
+
+#logout {
+  position: fixed;
+  left: 9.8%;
+  top: 3.97%;
+  transform: translate(-50%, -50%);
+
+  width: 7vh;
+  height: 7vh;
+  border-radius: 100%;
+
+  line-height: 7vh;
+  text-align: center;
+  background-color: rgb(212, 242, 231, 60%);
+
+  z-index: 25;
+}
+
 #date {
-  width: 60px;
-  height: 40px;
+  width: 30vw;
+  font-size: large;
+  line-height: 6vh;
+  text-align: center;
   background-color: skyblue;
 }
 
 #others {
-  width: 60px;
-  height: 40px;
-  margin-right: 10px;
+  margin-right: 3vw;
   background-color: salmon;
 }
 
@@ -68,14 +105,14 @@
   width: 27vw;
   height: 7vh;
 
-  font-size: 3vh;
+  font-size: large;
   font-weight: bolder;
 }
 
 .Separator {
   height: 1px;
   line-height: 1px;
-  font-size: 3vh;
+  font-size: large;
   letter-spacing: 2px;
   text-align: center;
   /* background-color: red; */
@@ -100,15 +137,23 @@
 
   line-height: 6vh;
   text-align: center;
-  font-size: 25px;
+  font-size: 4vh;
 
   /* background-color: skyblue; */
 }
 
 .close {
-  /* background-color: red; */
+  width: 8vw;
+  height: 8vw;
+  background-color: #c0c0c0;
+
+  text-align: center;
+  line-height: 8vw;
   font-weight: 800;
-  font-size: 25px;
+  font-size: large;
+
+  border: 1px solid #9a9a9a;
+  border-radius: 50%;
 
   position: fixed;
   left: 94%;
@@ -131,7 +176,7 @@
 
   line-height: 6vh;
   text-align: center;
-  font-size: 20px;
+  font-size: large;
   font-weight: bolder;
 
   background-color: pink;
@@ -144,7 +189,7 @@
   margin: 0.5vh 0.5vw;
   line-height: 5vh;
   text-align: center;
-  border: 0.5px solid grey;
+  border: 1px solid grey;
   border-radius: 2vw;
 }
 
@@ -155,7 +200,7 @@
   margin: 0.5vh 0.5vw;
   line-height: 5vh;
   text-align: center;
-  border: 0.5px solid grey;
+  border: 1px solid grey;
   border-radius: 2vw;
 }
 
@@ -164,7 +209,7 @@
   height: 21vh;
   margin: 0.5vh 1vw;
 
-  font-size: 20px;
+  font-size: 3.5vh;
   background-color: grey;
 }
 
@@ -192,7 +237,7 @@
   height: 24vh;
   margin: 0.5vh 1vw;
 
-  font-size: 20px;
+  font-size: 3vh;
   background-color: grey;
 }
 
@@ -222,7 +267,9 @@ scroll-view{
 .tips {  
   width: 96vw;
   /* tip最小高度 */
-  min-height:50px;
+  min-height: 6vh;
+  max-height: 16vh;
+
   height: auto;
   margin: 2vw;
 
@@ -234,25 +281,25 @@ scroll-view{
   border-radius: 10px 10px;
 }
 
-/* .type {
-  background-color: blue;
-  font-size: 30px;
-  overflow-wrap: normal;
-} */
-
-/* 
-todo: 
-大小问题；
-行距问题；
-文字自动换行问题；
-*/
 .info {
-  width: 82.5vw;
-  background-color: yellow;
+  width: 80.5vw;
+  /* background-color: yellow; */
+  font-size: 3vh;
+  line-height: 150%;
 
-  line-height: 50px;
-  font-size: 25px;
-  /* white-space: normal; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-left: 2vw;
+  /* margin: 1vh, 2vw, 1vh, 0; */
+
+  overflow-wrap: anywhere;
+  overflow: auto; 
+
+  background-color: yellow;
 }
 
 .done {
@@ -262,7 +309,7 @@ todo:
   align-items: center;
   justify-content: center;
 
-  background-color: indianred;
+  /* background-color: indianred; */
 }
 
 #footer {

@@ -3,15 +3,14 @@
 <view id="container">
 <view id="header">
 
-  <!-- todo: login -->
-  <button id="login" class="header_son"  open-type="chooseAvater" bindchooseAvatar="login">登录
-  
-    <image id="avatar" src="{{avatarUrl}}" mode=""/>
-  </button>
-  <input type="nickname" placeholder="请填写昵称"/>
-  <!-- <view id="logout" bind:tap="">注销<image src="微信头像"/></view> -->
-  <!--  -->
+  <button wx:if="{{!avatarUrl}}" id="login" class="header_son" bind:chooseavatar="r_l" open-type="chooseAvatar">登录</button>
 
+  <view wx:if="{{avatarUrl}}" id="avatarView" class="header_son">
+    <image bind:tap="logoutView" src="{{avatarUrl}}">
+      <view id="logout" wx:if="{{isLogoutView}}" bind:tap="logout">退出</view>
+    </image>
+  </view>
+  
   <view id="date" class="header_son">{{date}}{{ing}}</view>
   <view id="others" class="header_son" bind:tap="others">|||</view>
 </view>
@@ -33,7 +32,7 @@
 <view class="shadowBox" wx:if="{{isSettingView}}">
   <view class="TipView">
     <view class="title">设置</view>
-    <view data-id="0" class="close" bind:tap="other_son_View">x</view>
+    <view data-id="0" class="close" bind:tap="other_son_View">X</view>
 
     <view>修改颜色</view>
     <view data-id="0" bind:tap="changeColor">方案一：默认</view>
@@ -51,14 +50,14 @@
     <view>提醒：999</view>
     <view>随记：999</view>
 
-    <view data-id="1" class="close" bind:tap="other_son_View">x</view>
+    <view data-id="1" class="close" bind:tap="other_son_View">X</view>
   </view>
 </view>
 
 <view class="shadowBox" wx:if="{{isReportView}}">
   <view class="TipView">
     <view class="title">报错</view>
-    <view data-id="2" class="close" bind:tap="other_son_View">x</view>
+    <view data-id="2" class="close" bind:tap="other_son_View">X</view>
 
     <view>e-mail: ottolsq@qq.com</view>
   </view>
@@ -68,7 +67,7 @@
 <view class="shadowBox" wx:if="{{isAddTip}}">
   <view id="addTipView" class="TipView">
     <view class="title">添加代办</view>
-    <view class="close" bind:tap="addTip">x</view>
+    <view class="close" bind:tap="addTip">X</view>
 
     <view id="type">
       <text id="type_text">类型：</text>
@@ -77,7 +76,7 @@
       <view data-id="2" class="{{type_styles[2]}}" bind:tap="checkedType">提醒</view>
     </view>
     <view id="inputAreaA">
-      <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" auto-focus/>
+      <textarea bind:input="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen; font-size: 3.5vh" auto-focus/>
     </view>
     <view id="btn">
       <view class="btn_son" bind:tap="addTip">cancel</view>
@@ -89,10 +88,10 @@
 <view class="shadowBox" wx:if="{{isModTip}}">
   <view id="modTipView" class="TipView">
     <view class="title">修改代办</view>
-    <view class="close" bind:tap="modTip">x</view>
+    <view class="close" bind:tap="modTip">X</view>
     
     <view id="inputAreaB">
-      <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen;" value="{{data}}" auto-focus/>
+      <textarea bindinput="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen; font-size: 3.5vh;" value="{{data}}" auto-focus/>
     </view>
     <view id="updateTime">{{updatetime}}</view>
     <view id="btn">
@@ -106,19 +105,20 @@
   <scroll-view scroll-y="true"> 
     <view wx:for="{{tipList}}" wx:for-item="item" wx:key="id">
       <view data-id="{{item.id}}" class="tips" bind:longpress="modTip">
-        <view>
-          <text class="info">{{item.type}}.{{item.id}}:{{item.data}}</text>
+        <view class="info">
+          {{item.type}}.{{item.id}}:{{item.data}}
         </view>
         <view class="done">
           <view class="box">
             <checkbox data-id="{{item.id}}" bind:tap="finished"></checkbox>
-          
           </view>
         </view>
       </view>
     </view>
     
-    <view class="tips">{{type}}:{{data}}</view>
+    <!-- <view class="tips">{{type}}:{{data}}</view> -->
+    <!-- <button bind:tap="addJson">addJson</button> -->
+    <!-- <button bind:tap="getJson">getJson</button> -->
   </scroll-view>
 </view>
 

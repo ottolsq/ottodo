@@ -1,4 +1,7 @@
 // pages/schedule/schedule.js
+const WXAPI = require("apifm-wxapi")
+WXAPI.init("ottolsq")
+
 Page({
 
   /**
@@ -133,7 +136,7 @@ Page({
     this.setData({
       tipList_new: tipList_new,
     })
-    // console.log(this.data.tipList_new);
+    console.log(this.data.tipList_new);
   },
 
   // 获取指定月的tips分布情况
@@ -173,7 +176,7 @@ Page({
 
   // 删除逻辑
   finished(e) {
-    console.log(e.currentTarget.dataset.id)
+    // console.log(e.currentTarget.dataset.id)
     let index = this.getTipIndex(e.currentTarget.dataset.id)
 
     // 在总表中删除
@@ -183,11 +186,28 @@ Page({
       tipList: list
     })
 
+    wx.setStorageSync("tipList", list)
+
     this.assortTips()
     this.getMonthTipsStatus(this.data.year, this.data.month)
 
-    // todo: send delete request ******
-    // data: id
+    const userToken = wx.getStorageSync("userToken")
+    if(!userToken){
+      console.log("未登录");
+      return
+    }
+  
+    // 参数中没有id就是新增，反之为修改
+    WXAPI.jsonSet({
+      type: "代办",
+      token: userToken.token,
+      refId: wx.getStorageSync("userToken").uid,
+      id: wx.getStorageSync("userTipListId"),
+      content: '{"msg": '+ JSON.stringify(this.data.tipList)+ '}'
+    }).then(res => {
+      // console.log(res);
+      // console.log("error");
+    })
   },
   
   /**
@@ -225,14 +245,16 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-    
+    // 在schedule页面修改（点击了完成）tipList需要用到
+    // console.log("schedule hide");
+    // wx.setStorageSync("tipList", this.data.tipList)
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-    wx.setStorageSync("tipList", this.data.tipList)
+    // wx.setStorageSync("tipList", this.data.tipList)
   },
 
   /**

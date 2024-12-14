@@ -1,2 +1,31 @@
 <!--pages/diary/diary.wxml-->
 <text>pages/diary/diary.wxml</text>
+
+<text>\ntest login</text>
+
+<button bind:tap="login">登录</button>
+
+<button bind:tap="jsonSet">jsonSet</button>
+
+<button bind:tap="register">注册</button>
+
+<br/>
+
+<!-- <button open-type="chooseAvatar" bindchooseAvatar="login_">获取用户头像
+  <image id="avatar" src="{{avatarUrl}}" mode=""/>
+</button> -->
+
+<!-- todo: 获取用户名和头像 -->
+<button class="avatarBtn" bindchooseavatar="login_" open-type="chooseAvatar">
+  <image src="{{avatarUrl}}"></image>
+</button>
+
+
+
+<input type="nickname"  placeholder="请输入昵称" bindinput=""/>
+
+<!-- <button open-type="chooseAvatar" bindchooseAvatar="login_">获取用户头像</button> -->
+
+<textarea value="test" disabled="true"/>
+<text>-------------</text>
+<input type="text" 	bindblur="changeTextarea"/>

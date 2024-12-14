@@ -3,7 +3,7 @@
 <view id="container">
 
   <view id="header">
-    <view id="date_month" bind:tap="changeMonth">{{year}}/{{month+1}}</view>
+    <view id="date_month" bind:tap="changeMonth">{{year%100}}/{{month+1}}</view>
     <view id="color_list">
       <view id="color_0" class="color_son"></view>
       <view id="color_1" class="color_son"></view>
@@ -14,8 +14,8 @@
 
   <view class="shadowBox" wx:if="{{isChangeMonth}}">
     <view id="changeMonth">
-      <view class="close" bind:tap="changeMonth">x</view>
-      <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bindchange="bindChange">
+      <view class="close" bind:tap="changeMonth">X</view>
+      <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bind:change="bindChange">
         <picker-view-column>
           <view wx:for="{{years}}" wx:key="year" style="line-height: 50px; text-align: center;">{{item}}年</view>
         </picker-view-column>
@@ -62,17 +62,18 @@
       <view wx:if="{{tipList_new.length == 0}}">当日代办为空哦</view>
 
       <view wx:for="{{tipList_new}}" wx:for-item="item" wx:key="id">
-      <view data-id="{{item.id}}" class="tips">
-        <view>
-          <text class="info">{{item.type}}.{{item.id}}:{{item.data}}</text>
-        </view>
-        <view class="done">
-          <view class="box">
-            <checkbox data-id="{{item.id}}" bind:tap="finished"></checkbox>
+        <view data-id="{{item.id}}" class="tips">
+          <view class="info">
+            {{item.type}}.{{item.id}}:{{item.data}}
+          </view>
+
+          <view class="done">
+            <view class="box">
+              <checkbox data-id="{{item.id}}" bind:tap="finished"></checkbox>
+            </view>
           </view>
         </view>
       </view>
-    </view>
     
     </scroll-view>
   </view>

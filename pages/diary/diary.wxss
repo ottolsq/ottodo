@@ -1,1 +1,21 @@
 /* pages/diary/diary.wxss */
+
+.avatarBtn{
+  width: 20vw;
+  height: 20vw;
+  background-color: aqua;
+  border-radius: 100%;
+  padding: 0;
+}
+
+.avatarBtn image{
+  width: 20vw;
+  height: 20vw;
+  border-radius: 100%;
+}
+
+textarea {
+  width: 100vw;
+  /* height: ; */
+  /* background-color:khaki; */
+}

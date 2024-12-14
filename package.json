@@ -1,5 +1,5 @@
 {
-  "name": "miniprogram",
+  "name": "ottodo",
   "version": "1.0.0",
   "description": "this is ottodo.",
   "main": ".eslintrc.js",
@@ -7,9 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "ottolsq",
   "license": "ISC",
   "dependencies": {
     "apifm-wxapi": "^24.11.20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ottolsq/ottodo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ottolsq/ottodo/issues"
+  },
+  "homepage": "https://github.com/ottolsq/ottodo#readme"
 }
