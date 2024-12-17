@@ -3,7 +3,7 @@
 <view id="container">
 <view id="header">
 
-  <button wx:if="{{!avatarUrl}}" id="login" class="header_son" bind:chooseavatar="r_l" open-type="chooseAvatar">登录</button>
+  <button wx:if="{{!avatarUrl}}" id="login" class="header_son" bind:chooseavatar="register" open-type="chooseAvatar">登录</button>
 
   <view wx:if="{{avatarUrl}}" id="avatarView" class="header_son">
     <image bind:tap="logoutView" src="{{avatarUrl}}">
@@ -103,15 +103,31 @@
 
 <view id="body">
   <scroll-view scroll-y="true"> 
+    <view style="height: 1vh;"></view>
     <view wx:for="{{tipList}}" wx:for-item="item" wx:key="id">
       <view data-id="{{item.id}}" class="tips" bind:longpress="modTip">
-        <view class="info">
-          {{item.type}}.{{item.id}}:{{item.data}}
+        <view class="info" wx:if="{{item.type == 0}}" style="background-color: yellow;">
+          <!-- {{item.type}}.{{item.id}}:{{item.data}} -->
+          <text>代办{{index+1}}:</text>
+          <text>{{item.data}}</text>
         </view>
+
+        <view class="info" wx:if="{{item.type == 1}}" style="background-color: yellowgreen;">
+          <!-- {{item.type}}.{{item.id}}:{{item.data}} -->
+          <text>事件{{index+1}}:</text>
+          <text>{{item.data}}</text>
+        </view>
+
+        <view class="info" wx:if="{{item.type == 2}}" style="background-color: skyblue;">
+          <!-- {{item.type}}.{{item.id}}:{{item.data}} -->
+          <text>提醒{{index+1}}:</text>
+          <text>{{item.data}}</text>
+        </view>
+
         <view class="done">
-          <view class="box">
+          <!-- <view class="box"> -->
             <checkbox data-id="{{item.id}}" bind:tap="finished"></checkbox>
-          </view>
+          <!-- </view> -->
         </view>
       </view>
     </view>

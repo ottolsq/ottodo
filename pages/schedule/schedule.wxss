@@ -21,7 +21,7 @@
   margin-left: 2vw;
 
   line-height: 6vh;
-  font-size: 25px;
+  font-size: 4vh;
   background-color: grey;
 }
 
@@ -85,7 +85,7 @@ picker-view-column {
   text-align: center;
   line-height: 8vw;
   font-weight: 800;
-  font-size: 25px;
+  font-size: large;
 
   border: 1px solid #9a9a9a;
   border-radius: 50%;
@@ -126,7 +126,7 @@ picker-view-column {
   margin: auto;
 
   text-align: center;
-  font-size: 20px;
+  font-size: 3vh;
   font-weight: bolder;
   background-color: olive;
 }
@@ -180,7 +180,7 @@ picker-view-column {
   height: 4.8vh;
 
   line-height: 4.8vh;
-  /* font-size: small; */
+  font-size: large;
   
   background-color:hotpink;
 }
@@ -188,8 +188,19 @@ picker-view-column {
 scroll-view{
   background-color: bisque;
   width: 100vw;
-  height: 45vh; 
+  height: 45vh;
 }
+
+#remind {
+  text-align: center;
+  font-size: medium;
+}
+
+/* #remind::before {
+  content: "";
+  display: block;
+  height: 1vh;
+} */
 
 .tips {  
   width: 96vw;
@@ -198,7 +209,8 @@ scroll-view{
   max-height: 16vh;
 
   height: auto;
-  margin: 2vw;
+  /* margin-top: 1vh; */
+  margin-left: 2vw;
 
   display: flex;
   flex-direction: row;
@@ -209,7 +221,7 @@ scroll-view{
 }
 
 .info {
-  width: 80.5vw;
+  width: 82vw;
   /* background-color: yellow; */
   font-size: 3vh;
   line-height: 150%;
@@ -226,15 +238,18 @@ scroll-view{
   overflow-wrap: anywhere;
   overflow: auto; 
 
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 
 .done {
-  width: 13.5vw;
+  width: 12vw;
   height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-
   /* background-color: indianred; */
+}
+
+.done checkbox {
+  margin-left: 1.3vw;
 }

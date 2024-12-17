@@ -1,0 +1,104 @@
+/* pages/diaryView/diaryView.wxss */
+#container {
+  width: 100vw;
+  height: 100vh;
+
+  background-color: aqua;
+}
+
+#header{
+  width: 100vw;
+  height: 7vh;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  /* border-bottom: 1px solid gray; */
+  background-color: pink;
+}
+
+#header > image {
+  width: 7vh;
+  height: 7vh;
+  margin-left: 2vw;
+
+  border-radius: 50%;
+  /* background: green; */
+}
+
+#header > view {
+  width: 35vw;
+  height: 7vh;
+  margin-left:auto;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: azure;
+}
+
+.h_son {
+  width: 14vw;
+  height: 4vh;
+
+  margin: auto;
+
+  border-radius: 2vw;
+  border: 1px solid grey;
+
+  line-height: 4vh;
+  text-align: center;
+  background-color: yellowgreen;
+}
+
+scroll-view {
+  width: 100vw;
+  height: 93vh;
+}
+
+#diary {
+  width: 96vw;
+  min-height: 46vh;
+
+  /* margin-top: 1vh; */
+  margin-left: 2vw;
+
+  padding-top: 1vh;
+  padding-bottom: 5vh;
+
+  border-radius: 2vw;
+  box-shadow: 1vw 2px 5px rgba(0, 0, 0, 0.5);
+  background-color: skyblue;
+}
+
+#title {
+  width: 92vw;
+  margin-left: 2vw;
+
+  font-size: large;
+  background-color: orange;
+}
+
+#date {
+  width: 92vw;
+  margin-left: 2vw;
+
+  font-size: small;
+  color: grey;
+  background-color: yellow;
+}
+
+#text {
+  width: 92vw;
+  margin-left: 2vw;
+  min-height: 40vh;
+  /* min-height:100vh; */
+  
+  background-color:gainsboro;
+  /* background-color: red; */
+}
+
+
+

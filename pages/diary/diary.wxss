@@ -1,21 +1,124 @@
 /* pages/diary/diary.wxss */
-
-.avatarBtn{
-  width: 20vw;
-  height: 20vw;
-  background-color: aqua;
-  border-radius: 100%;
-  padding: 0;
-}
-
-.avatarBtn image{
-  width: 20vw;
-  height: 20vw;
-  border-radius: 100%;
-}
-
-textarea {
+#container {
   width: 100vw;
-  /* height: ; */
-  /* background-color:khaki; */
+  height: 100vh;
+
+  background-color: aqua;
 }
+
+#line {
+  
+  width: 25vw;
+  height: 90vh;
+  border-right: 2px solid grey;
+  background-color: orange;
+
+
+}
+
+scroll-view {
+  margin-left: 3vw;
+  /* padding-top: 1.5vh; */
+  /* margin-top: 2vh; */
+  width: 94vw;
+  height: 98vh;
+  background-color: yellowgreen;
+}
+
+.diary {
+  width: 94vw;
+  height: auto;
+  
+
+  display: flex;
+  flex-direction: row;
+
+  background-color: orchid;
+}  
+
+.date {
+  width: 20vw;
+
+  text-align: center;
+
+  border-right: 2px solid black;
+  background-color:palegoldenrod;
+}
+
+.date :last-child {
+  font-size: large;
+  color: red;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: row;
+}
+
+.point {
+  /* font-size: 20px; */
+  /* color: aliceblue; */
+  border: 2px solid black;
+  border-radius: 50%;
+
+  margin-top: 0.5vh;
+  width: 3vw;
+  height: 3vw;
+  margin-left: -2.25vw;
+
+  background-color: #fff;
+  /* z-index: 25; */
+}
+
+.info {
+  width: 69.75vw;
+  margin-left: 2vw;
+  margin-top: 0vh;
+
+  background-color: burlywood;
+}
+
+.time {
+  font-size: small;
+  color: palegreen;
+  background-color: peru;
+}
+
+.text {
+  width: 69.75vw;
+  margin-bottom: 2vh;
+
+  /* height: 20vh; */
+  
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+
+  background-color: #fff;
+}
+
+#plus {
+  width: 15vw;
+  height: 15vw;
+
+  position: fixed;
+  right: 0%;
+  bottom: 5%;
+  transform: translate(-50%, -50%);
+  
+
+  font-size: 10vw;
+  line-height: 15vw;
+  text-align: center;
+
+  background-color: red;
+  border-radius: 50%;
+  border: 1px solid grey;
+}
+
+/* #test:active {
+  background-color: #fff;
+} */

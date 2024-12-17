@@ -1,31 +1,45 @@
 <!--pages/diary/diary.wxml-->
-<text>pages/diary/diary.wxml</text>
+<!-- <text>pages/diary/diary.wxml</text> -->
 
-<text>\ntest login</text>
+<view id="container">
+  <!-- <image src="" mode=""/> -->
+  <!-- <view id="line"></view> -->
 
-<button bind:tap="login">登录</button>
+    <scroll-view scroll-y="true">
+      <!-- wx:for diaryList -->
+      <view style="height: 1vh;"></view>
+      <view class="diary" wx:for="{{dayList}}" wx:for-item="list" wx:key="index_">
+        <view class="date">
+          <view>{{list[0].updatetime[0]}}.{{list[0].updatetime[1]}}</view>
+          <view>{{list[0].updatetime[2]}}</view>
+        </view>
 
-<button bind:tap="jsonSet">jsonSet</button>
+        <!-- wx:for infoList -->
+        <view>
+          <view data-id="{{item.id}}" class="infoItem" wx:for="{{list}}" wx:for-item="item" wx:key="index" bind:tap="edit">
+            <view class="point"></view>
+            <view class="info">
+              <view class="title">{{item.title}}</view>
+              <view class="time">{{item.updatetime[3]}}:{{item.updatetime[4]}}</view>
+              <view class="text">{{item.data}}</view>
+            </view>            
+          </view>    
+        </view>
+      </view>
 
-<button bind:tap="register">注册</button>
+      <!-- wx:for diaryList -->
+      <view class="diary">
+        <view class="date">起点</view>
+        <view class="infoItem"></view>
+        <view class="point"></view>
+        <view class="info">
+          <view class="title">写下心中所想</view>
+        </view>            
+      </view>
+    </scroll-view>
+  
+    <view id="plus" bind:tap="plus">+</view>
+    
+</view>
 
-<br/>
-
-<!-- <button open-type="chooseAvatar" bindchooseAvatar="login_">获取用户头像
-  <image id="avatar" src="{{avatarUrl}}" mode=""/>
-</button> -->
-
-<!-- todo: 获取用户名和头像 -->
-<button class="avatarBtn" bindchooseavatar="login_" open-type="chooseAvatar">
-  <image src="{{avatarUrl}}"></image>
-</button>
-
-
-
-<input type="nickname"  placeholder="请输入昵称" bindinput=""/>
-
-<!-- <button open-type="chooseAvatar" bindchooseAvatar="login_">获取用户头像</button> -->
-
-<textarea value="test" disabled="true"/>
-<text>-------------</text>
-<input type="text" 	bindblur="changeTextarea"/>
+<!-- <view id="test">test</view> -->

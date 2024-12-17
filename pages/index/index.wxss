@@ -271,7 +271,8 @@ scroll-view{
   max-height: 16vh;
 
   height: auto;
-  margin: 2vw;
+  margin-left: 2vw;
+  margin-bottom: 2vw;
 
   display: flex;
   flex-direction: row;
@@ -282,7 +283,7 @@ scroll-view{
 }
 
 .info {
-  width: 80.5vw;
+  width: 82vw;
   /* background-color: yellow; */
   font-size: 3vh;
   line-height: 150%;
@@ -299,17 +300,20 @@ scroll-view{
   overflow-wrap: anywhere;
   overflow: auto; 
 
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 
 .done {
-  width: 13.5vw;
+  width: 12vw;
   height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-
   /* background-color: indianred; */
+}
+
+.done checkbox {
+  margin-left: 1.3vw;
 }
 
 #footer {

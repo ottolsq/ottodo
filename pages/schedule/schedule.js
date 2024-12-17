@@ -9,7 +9,7 @@ Page({
    */
   data: {
     // 初始
-    color_type: "",
+    colorType: "",
 
     // 选定指定年月
     years: [],
@@ -31,7 +31,7 @@ Page({
     date_ed: "",     // 当前选中的日期，从零开始
     tipList_new: [], // 当前选中的日期的tips
     
-    // test 数据
+    // 数据
     tipList: [],
   },
 
@@ -129,6 +129,7 @@ Page({
 
   // 按时间分类tips
   assortTips() {
+    // console.log(this.data.tipList);
     let tipList_new = this.data.tipList.filter((item) => {
       if (this.formatTime(item.updatetime, 0) == this.data.date_ed + 1) return item
     })
@@ -136,7 +137,7 @@ Page({
     this.setData({
       tipList_new: tipList_new,
     })
-    console.log(this.data.tipList_new);
+    // console.log(this.data.tipList_new);
   },
 
   // 获取指定月的tips分布情况
@@ -187,16 +188,17 @@ Page({
     })
 
     wx.setStorageSync("tipList", list)
+    // console.log(wx.getStorageSync("tipList"));
 
     this.assortTips()
     this.getMonthTipsStatus(this.data.year, this.data.month)
 
+    // 提交
     const userToken = wx.getStorageSync("userToken")
     if(!userToken){
-      console.log("未登录");
+      console.log("not login");
       return
     }
-  
     // 参数中没有id就是新增，反之为修改
     WXAPI.jsonSet({
       type: "代办",
@@ -214,17 +216,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // 获取用户数据
-    this.setData({
-      color_type: wx.getStorageSync("colorType"),
-      tipList: wx.getStorageSync("tipList")
-    })
+    // console.log(wx.getStorageSync("tipList"));
 
-    // 获取当前的时间
-    this.getDate()
-    this.getScheduleDate()
-    this.assortTips()
-    this.getMonthTipsStatus(this.data.year, this.data.month)
+      this.setData({
+        colorType: wx.getStorageSync("colorType"),
+        tipList: wx.getStorageSync("tipList")
+      })
+
+      // 获取当前的时间
+      this.getDate()
+      this.getScheduleDate()
+      this.assortTips()
+      this.getMonthTipsStatus(this.data.year, this.data.month)
   },
 
   /**
@@ -261,7 +264,40 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
+    console.log("refresh getJson");
+    const userToken = wx.getStorageSync("userToken")
+    if(!userToken){
+      console.log("not login");
+      wx.stopPullDownRefresh()
+      return
+    }
 
+    console.log("getJson");
+
+    // 只获取 refId 的数据
+    WXAPI.jsonList({
+      refId: wx.getStorageSync("userToken").uid,
+      token: userToken.token,
+    }).then(res => {
+      if (res.code == 0) {
+        console.log("get tipList and userTipListId success");
+
+        if( res.data[0].tpye == "tip") {
+          wx.setStorageSync("tipList", res.data[0].jsonData.msg)
+          wx.setStorageSync("userTipListId", res.data[0].id)
+          this.setData({
+            tipList: res.data[0].jsonData.msg,
+          })
+        }else{
+          wx.setStorageSync("tipList", res.data[1].jsonData.msg)
+          wx.setStorageSync("userTipListId", res.data[1].id)
+          this.setData({
+            tipList: res.data[1].jsonData.msg,
+          })
+        }
+      }
+      wx.stopPullDownRefresh()
+    })
   },
 
   /**

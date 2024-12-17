@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/schedule/schedule",
-    "pages/diary/diary"
+    "pages/diary/diary",
+    "pages/diaryView/diaryView"
   ],
   "window": {
     "navigationBarTextStyle": "black",

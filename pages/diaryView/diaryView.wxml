@@ -1,0 +1,24 @@
+<!--pages/diaryView/diaryView.wxml-->
+<!-- <text>pages/diaryView/diaryView.wxml</text> -->
+<view id="container">
+  <view id="header">
+    <image src="{{avatarUrl}}" mode="scaleToFill"/>
+    <view >
+      <view id="delete" bind:tap="delete" wx:if="{{mode==0 || mode==2}}" class="h_son">删除</view>
+      <view id="delete" bind:tap="cancel" wx:if="{{mode==1}}" class="h_son">取消</view>
+      <view id="edit" bind:tap="edit" wx:if="{{mode==0}}" class="h_son">编辑</view>
+      <view id="done" bind:tap="handle" wx:if="{{mode==2}}" class="h_son">完成</view>
+      <view id="add" bind:tap="handle" wx:if="{{mode==1}}" class="h_son">新增</view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y="true" catchtouchmove="handleTouchMove" catchtouchend="handleTouchEnd">
+    <view style="height: 1vh;  border-top: 1px dashed gray;"></view>
+    <view id="diary" bind:longpress="edit">
+      <input id="title" disabled="{{notEdit}}"  bindinput="getTitle" value="{{diary.title}}"></input>
+      <view id="date">{{diary.updatetime}}</view>
+      <textarea id="text" disabled="{{notEdit}}" bindinput="getData" bind:tap="getfocus" focus="{{focus}}" value="{{diary.data}}"></textarea>
+    </view>
+    <view style="height: 3vh;"></view>
+  </scroll-view>
+</view>
