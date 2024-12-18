@@ -54,9 +54,6 @@ Page({
       month: month,
       date_ed: day-1,
     })
-    // console.log(this.data.year);
-    // console.log(this.data.month);
-    // console.log(this.data.date_ed);
   },
 
   // changeMonthView
@@ -248,9 +245,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-    // 在schedule页面修改（点击了完成）tipList需要用到
-    // console.log("schedule hide");
-    // wx.setStorageSync("tipList", this.data.tipList)
+    
   },
 
   /**

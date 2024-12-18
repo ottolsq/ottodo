@@ -272,7 +272,7 @@ scroll-view{
 
   height: auto;
   margin-left: 2vw;
-  margin-bottom: 2vw;
+  margin-bottom: 1vh;
 
   display: flex;
   flex-direction: row;

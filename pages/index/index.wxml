@@ -131,10 +131,7 @@
         </view>
       </view>
     </view>
-    
-    <!-- <view class="tips">{{type}}:{{data}}</view> -->
-    <!-- <button bind:tap="addJson">addJson</button> -->
-    <!-- <button bind:tap="getJson">getJson</button> -->
+
   </scroll-view>
 </view>
 

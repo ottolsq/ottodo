@@ -80,6 +80,9 @@ Page({
 
     // console.log(list);
     if (!list.length) {
+      this.setData({
+        dayList: []
+      })
       return
     }
 
@@ -152,7 +155,7 @@ Page({
             "id": 0,
             "title": "快写下第一个随记吧",
             "data": "",
-            "updatetime": 1732982400000
+            "updatetime": Date.now()
           }
         ]
       })
@@ -162,9 +165,6 @@ Page({
 
       this.assortDiary()
     }
-
-
-    
   },
 
   /**
@@ -189,10 +189,7 @@ Page({
       this.setData({
         diaryList: wx.getStorageSync("diaryList")
       })
-      console.log(wx.getStorageSync("diaryList"))
       this.assortDiary()
-
-      console.log(this.data.diaryList);
     }
     
 
@@ -216,7 +213,47 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
+    console.log("refresh getJson");
+    const userToken = wx.getStorageSync("userToken")
+    if(!userToken){
+      console.log("not login");
+      // console.log(wx.getStorageSync("tipList"));
+      this.setData({
+        diaryList: wx.getStorageSync("diaryList"),
+      })
+      this.assortDiary()
+      wx.stopPullDownRefresh()
+      return
+    }
 
+    // // 只获取 refId 的数据
+    WXAPI.jsonList({
+      refId: wx.getStorageSync("userToken").uid,
+      token: userToken.token,
+    }).then(res => {
+      if (res.code == 0) {
+        if( res.data[0].tpye == "tip") {
+          wx.setStorageSync("tipList", res.data[0].jsonData.msg)
+          wx.setStorageSync("diaryList", res.data[1].jsonData.msg)
+          wx.setStorageSync("userTipListId", res.data[0].id)
+          wx.setStorageSync("userDiaryListId", res.data[1].id)
+          this.setData({
+            diaryList: res.data[1].jsonData.msg,
+          })
+        }else{
+          wx.setStorageSync("tipList", res.data[1].jsonData.msg)
+          wx.setStorageSync("diaryList", res.data[0].jsonData.msg)
+          wx.setStorageSync("userTipListId", res.data[1].id)
+          wx.setStorageSync("userDiaryListId", res.data[0].id)
+          this.setData({
+            diaryList: res.data[0].jsonData.msg,
+          })
+        }
+      }
+
+      this.assortDiary()
+      wx.stopPullDownRefresh()
+    })
   },
 
   /**

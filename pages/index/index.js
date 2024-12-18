@@ -135,10 +135,22 @@ Page({
   logout(e) {
     console.log("logout");
     this.initData()
+
+    let list = [
+      {
+        "id": 0,
+        "type": "2",
+        "data": "登录才能保存您的数据哦",
+        "updatetime": Date.now()
+      }
+    ]
+
     this.setData({
       avatarUrl: "",
-      tipList: []
+      tipList: list
     })
+
+    wx.setStorageSync("tipList", list)
   },
 
   // 初始化
@@ -563,7 +575,7 @@ Page({
           "id": 0,
           "type": "2",
           "data": "登录才能保存您的数据哦",
-          "updatetime": 1733898553030
+          "updatetime": Date.now()
         }
       ]
 
@@ -595,13 +607,6 @@ Page({
     } else {
       this.getJson()
     }
-
-    // if(wx.getStorageSync("tipList") != "") {
-    //   console.log("review");
-    //   this.setData({
-    //     tipList: wx.getStorageSync("tipList"),
-    //   })
-    // }
     
   },
 
@@ -609,16 +614,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-    // 在schedule页面修改（点击了完成）tipList需要用到
-    // console.log("index hide");
-    // wx.setStorageSync("tipList", this.data.tipList)
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-    // wx.setStorageSync("tipList", this.data.tipList)
+    
   },
 
   /**
@@ -643,15 +646,23 @@ Page({
       token: userToken.token,
     }).then(res => {
       if (res.code == 0) {
-        console.log("get tipList and userTipListId success");
-        console.log("get diaryList and userDiaryListId success");
-        wx.setStorageSync("tipList", res.data[0].jsonData.msg)
-        wx.setStorageSync("diaryList", res.data[1].jsonData.msg)
-        wx.setStorageSync("userTipListId", res.data[0].id)
-        wx.setStorageSync("userDiaryListId", res.data[1].id)
-        this.setData({
-          tipList: res.data[0].jsonData.msg,
-        })
+        if( res.data[0].tpye == "tip") {
+          wx.setStorageSync("tipList", res.data[0].jsonData.msg)
+          wx.setStorageSync("diaryList", res.data[1].jsonData.msg)
+          wx.setStorageSync("userTipListId", res.data[0].id)
+          wx.setStorageSync("userDiaryListId", res.data[1].id)
+          this.setData({
+            tipList: res.data[0].jsonData.msg,
+          })
+        }else{
+          wx.setStorageSync("tipList", res.data[1].jsonData.msg)
+          wx.setStorageSync("diaryList", res.data[0].jsonData.msg)
+          wx.setStorageSync("userTipListId", res.data[1].id)
+          wx.setStorageSync("userDiaryListId", res.data[0].id)
+          this.setData({
+            tipList: res.data[1].jsonData.msg,
+          })
+        }
       }
       wx.stopPullDownRefresh()
     })

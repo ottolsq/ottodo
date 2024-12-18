@@ -131,7 +131,7 @@ Page({
       })
     } else {
       console.log("not login")
-      console.log(this.data.diary);
+      // console.log(this.data.diary);
     }
   },
 
@@ -154,7 +154,7 @@ Page({
     }
     
     wx.setStorageSync("diaryList", newdiary)
-    console.log(wx.getStorageSync("diaryList"));
+    // console.log(wx.getStorageSync("diaryList"));
     diary.updatetime = this.formatTime(diary.updatetime)
     this.setData({
       mode: 1,
@@ -162,7 +162,7 @@ Page({
     })
   },
 
-  mode_2() {},
+  // mode_2() {},
 
   getfocus() {
     this.setData({
@@ -176,22 +176,6 @@ Page({
     this.setData({
       diary: diary
     })
-
-    // let diaryList = wx.getStorageSync("diaryList")
-    // diaryList[diaryList.length-1].title = e.detail.value
-    // wx.setStorageSync("diaryList", diaryList)
-
-    // if(this.data.mode == 1){
-    //   let diaryList = wx.getStorageSync("diaryList")
-    // diaryList[diaryList.length-1].title = e.detail.value
-    // wx.setStorageSync("diaryList", diaryList)
-    // }else if(this.data.mode == 2){
-    //   let diaryList = wx.getStorageSync("diaryList")
-    //   diaryList[this.getTipIndex(this.data.diary.id)].title = e.detail.value
-    //   wx.setStorageSync("diaryList", diaryList)
-    //   console.log(diaryList[this.getTipIndex(this.data.diary.id)]);
-    // }
-
   },
 
   getData(e) {
@@ -200,17 +184,6 @@ Page({
     this.setData({
       diary: diary
     })
-
-    // if(this.data.mode == 1){
-    //   let diaryList = wx.getStorageSync("diaryList")
-    //   diaryList[diaryList.length-1].data = e.detail.value
-    //   wx.setStorageSync("diaryList", diaryList)
-    // }else if(this.data.mode == 2){
-    //   let diaryList = wx.getStorageSync("diaryList")
-    //   diaryList[this.getTipIndex(this.data.diary.id)].data = e.detail.value
-    //   wx.setStorageSync("diaryList", diaryList)
-    //   // console.log(diaryList[this.getTipIndex(this.data.diary.id)]);
-    // }
   },
 
   cancel() {
@@ -231,22 +204,27 @@ Page({
       id: wx.getStorageSync("userDiaryListId"),
       content: '{"msg": '+ JSON.stringify(wx.getStorageSync("diaryList"))+ '}'
     }).then(res => {
-      console.log(wx.getStorageSync("diaryList"));
+      // console.log(wx.getStorageSync("diaryList"));
       // console.log("error");
     })
   },
 
   // 提交
   handle() {
+    if(this.data.mode == 1) {
+      this.setData({
+        mode: 3
+      })
+    }
+
     let diaryList = wx.getStorageSync("diaryList")
-
-    // todo: time error
-    // let diary = this.data.diary
-    diaryList[this.getTipIndex(this.data.diary.id)] = this.data.diary
-    // diaryList.splice(this.getTipIndex(this.data.diary.id), 1);
+    let diary = this.data.diary
+    diary.updatetime = diaryList[this.getTipIndex(this.data.diary.id)].updatetime
+    diaryList[this.getTipIndex(this.data.diary.id)] = diary
     wx.setStorageSync("diaryList", diaryList)
-    console.log(wx.getStorageSync("diaryList"));
 
+
+    // console.log(wx.getStorageSync("diaryList"));
 
     this.modJson()
     wx.navigateBack()
@@ -265,6 +243,8 @@ Page({
 
     diaryList.splice(this.getTipIndex(this.data.diary.id), 1);
     wx.setStorageSync("diaryList", diaryList)
+
+    console.log(wx.getStorageSync("diaryList"));
     this.modJson()
     wx.navigateBack()
   },
@@ -290,7 +270,7 @@ Page({
       console.log("let me see");
       this.mode_0(id)
     }
-    console.log(wx.getStorageSync("diaryList"));
+    // console.log(wx.getStorageSync("diaryList"));
   },
 
   /**
@@ -320,7 +300,6 @@ Page({
   onUnload() {
     console.log("onUnload");
 
-    // todo: not login 状态下，新增不会放到缓存中，solve: mode == 3 => mode == 1
     if(this.data.mode == 1) {
       let list = wx.getStorageSync("diaryList")
       list.pop();
