@@ -3,15 +3,15 @@
   width: 100vw;
   height: 100vh;
 
-  background-color: aqua;
+  background-color: #FFBE00;
 }
 
 #line {
   
   width: 25vw;
   height: 90vh;
-  border-right: 2px solid grey;
-  background-color: orange;
+  /* border-right: 2px solid grey; */
+  /* background-color: orange; */
 
 
 }
@@ -22,51 +22,50 @@ scroll-view {
   /* margin-top: 2vh; */
   width: 94vw;
   height: 98vh;
-  background-color: yellowgreen;
+  /* background-color: yellowgreen; */
 }
 
 .diary {
   width: 94vw;
   height: auto;
   
-
   display: flex;
   flex-direction: row;
-
-  background-color: orchid;
+  background-color: #F1F1F1;
 }  
 
 .date {
   width: 20vw;
-
   text-align: center;
-
+  /* font-size: larger; */
+  font-weight: bolder;
   border-right: 2px solid black;
-  background-color:palegoldenrod;
+  background-color: #F1F1F1;
 }
 
 .date :last-child {
   font-size: large;
-  color: red;
+  color: #F76260;
 }
 
 .infoItem {
   display: flex;
   flex-direction: row;
+  background-color: #F1F1F1;
 }
 
 .point {
   /* font-size: 20px; */
   /* color: aliceblue; */
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 50%;
 
   margin-top: 0.5vh;
   width: 3vw;
   height: 3vw;
-  margin-left: -2.25vw;
+  margin-left: -2.1vw;
 
-  background-color: #fff;
+  background-color: #F1F1F1;
   /* z-index: 25; */
 }
 
@@ -75,20 +74,26 @@ scroll-view {
   margin-left: 2vw;
   margin-top: 0vh;
 
-  background-color: burlywood;
+  background-color: #F1F1F1;
+}
+
+.title {
+  font-size: larger;
+  font-weight: bolder;
+
 }
 
 .time {
   font-size: small;
-  color: palegreen;
-  background-color: peru;
+  color: #4D4D4D;
+  /* background-color: peru; */
 }
 
 .text {
-  width: 69.75vw;
+  width: 67.75vw;
   margin-bottom: 2vh;
-
-  /* height: 20vh; */
+  margin-right: 2vw;
+  border-radius: 1vw;
   
   white-space: pre-wrap;
   display: -webkit-box;
@@ -96,8 +101,10 @@ scroll-view {
   -webkit-line-clamp: 6;
   overflow: hidden;
   /* text-overflow: ellipsis; */
-
-  background-color: #fff;
+  font-size: large;
+  font-weight: bolder;
+  color: #fff;
+  background-color: #4D4D4D;
 }
 
 #plus {
@@ -111,10 +118,10 @@ scroll-view {
   
 
   font-size: 10vw;
-  line-height: 15vw;
+  /* line-height: 15vw; */
   text-align: center;
-
-  background-color: red;
+  color: #F1F1F1;
+  background-color: #2BA245;
   border-radius: 50%;
   border: 1px solid grey;
 }

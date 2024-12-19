@@ -2,13 +2,13 @@
 #container {
   width: 100vw;
   height: 100vh;
-  background-color: aqua;
+  /* background-color: aqua; */
 }
 
 #header {
   width: 100vw;
   height: 8vh;
-  background-color: yellowgreen;
+  background-color: #F1F1F1;
 
   display: flex;
   flex-direction: row;
@@ -25,12 +25,15 @@
 #login {
   margin-left: 3vw;
 
-  font-size: large;
-  /* font-weight: bolder; */
+  font-size: larger;
+  font-weight: bolder;
+  /* border: 1px solid grey; */
   line-height: 6vh;
   text-align: center;
+  color: #fff;
 
-  background-color: rosybrown;
+
+  background-color:  #1AAD19;
 }
 
 #avatarView {
@@ -59,27 +62,33 @@
 
   line-height: 7vh;
   text-align: center;
-  background-color: rgb(212, 242, 231, 60%);
+  background-color: rgb(255, 255, 255, 50%);
 
   z-index: 25;
 }
 
 #date {
   width: 30vw;
-  font-size: large;
+  font-size: larger;
+  font-weight: bolder;
   line-height: 6vh;
   text-align: center;
-  background-color: skyblue;
+  /* background-color: skyblue; */
 }
 
 #others {
   margin-right: 3vw;
-  background-color: salmon;
+  font-size: larger;
+  font-weight: bolder;
+  color: #fff;
+  border: 1px solid grey;
+  border-radius: 1vw;
+  background-color: #1AAD19;
 }
 
 .shadowBox {
   position: fixed;
-  background-color: rgb(212, 242, 231, 60%);
+  background-color: rgb(0, 0, 0, 50%);
   width: 100vw;
   height: 100vh;
   transform: translate(0 , -8%);
@@ -95,7 +104,8 @@
   width: 27vw;
   height: 21vh;
 
-  background-color: #9899ee;
+  color: #fff;
+  background-color: #4D4D4D;
   border-radius: 3vw;
 }
 
@@ -127,7 +137,8 @@
   width: 80vw;
   height: 40vh;
   border-radius: 3vw;
-  background-color: #9899ee;
+  color: #fff;
+  background-color: #4D4D4D;
   z-index: 99;
 }
 
@@ -145,14 +156,15 @@
 .close {
   width: 8vw;
   height: 8vw;
-  background-color: #c0c0c0;
+  background-color: #F1F1F1;
+  color: #4D4D4D;
 
   text-align: center;
   line-height: 8vw;
   font-weight: 800;
   font-size: large;
 
-  border: 1px solid #9a9a9a;
+  /* border: 1px solid #9a9a9a; */
   border-radius: 50%;
 
   position: fixed;
@@ -167,7 +179,7 @@
 
   display: flex;
   flex-direction: row;
-  background-color: yellowgreen; 
+  /* background-color: yellowgreen;  */
 }
 
 #type_text {
@@ -179,28 +191,28 @@
   font-size: large;
   font-weight: bolder;
 
-  background-color: pink;
+  /* background-color: pink; */
 }
 
 .type_son {
   width: 19vw;
   height: 5vh;
-  background-color: orange;
+  background-color: #FFBE00;
   margin: 0.5vh 0.5vw;
   line-height: 5vh;
   text-align: center;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   border-radius: 2vw;
 }
 
 .type_son_ed {
   width: 19vw;
   height: 5vh;
-  background-color: red;
+  background-color: #F76260;
   margin: 0.5vh 0.5vw;
   line-height: 5vh;
   text-align: center;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   border-radius: 2vw;
 }
 
@@ -208,9 +220,9 @@
   width: 78vw;
   height: 21vh;
   margin: 0.5vh 1vw;
-
+  color: #4D4D4D;
   font-size: 3.5vh;
-  background-color: grey;
+  background-color: #F1F1F1;
 }
 
 #btn {
@@ -229,16 +241,16 @@
   line-height: 5vh;
   text-align: center;
   border-radius: 2vw;
-  background-color: skyblue;
+  background-color: #1AAD19;
 }
 
 #inputAreaB {
   width: 78vw;
   height: 24vh;
   margin: 0.5vh 1vw;
-
+  color: #4D4D4D;
   font-size: 3vh;
-  background-color: grey;
+  background-color: #F1F1F1;
 }
 
 #updateTime {
@@ -248,18 +260,18 @@
 
   text-align: right;
   /* color: grey; */
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 
 #body {
   width: 100vw;
   height: 80vh;
-  background-color: orange;
+  /* background-color: orange; */
 }
 
 scroll-view{
-  background-color: bisque;
+  /* background-color: bisque; */
   width: 100vw;
   height: 80vh; 
 }
@@ -276,9 +288,9 @@ scroll-view{
 
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
+  border: 1px solid #AAAAAA;
   
-  background-color: #fff;
+  background-color: #F0F0F0;
   border-radius: 10px 10px;
 }
 
@@ -319,7 +331,10 @@ scroll-view{
 #footer {
   width: 100vw;
   height: 12vh;
-  background-color: red;
+  /* background-color: red; */
+  font-size: larger;
+  font-weight: bolder;
+  color: #fff;
 
   display: flex;
   flex-direction: row;
@@ -334,7 +349,7 @@ scroll-view{
   line-height: 12vh;
   text-align: center;
 
-  background-color: green;
+  background-color: #D84E43;
 }
 
 #diary {
@@ -344,7 +359,7 @@ scroll-view{
   line-height: 12vh;
   text-align: center;
 
-  background-color: blueviolet;
+  background-color: #FFBE00;
 }
 
 #plus {
@@ -354,5 +369,5 @@ scroll-view{
   line-height: 12vh;
   text-align: center;
 
-  background-color: olive;
+  background-color: #2782D7;
 }

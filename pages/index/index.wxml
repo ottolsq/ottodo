@@ -76,7 +76,7 @@
       <view data-id="2" class="{{type_styles[2]}}" bind:tap="checkedType">提醒</view>
     </view>
     <view id="inputAreaA">
-      <textarea bind:input="getData" placeholder="maxlength=150" placeholder-style="color: yellowgreen; font-size: 3.5vh" auto-focus/>
+      <textarea bind:input="getData" placeholder="max:150" placeholder-style="color: #AAAAAA; font-size: 3.5vh" auto-focus/>
     </view>
     <view id="btn">
       <view class="btn_son" bind:tap="addTip">cancel</view>
